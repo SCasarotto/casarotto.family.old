@@ -2,5 +2,26 @@
   "projects": {
     "default": "family-website-prod",
     "production": "family-website-prod"
+  },
+  "targets": {
+    "family-website-prod": {
+      "hosting": {
+        "wedding": [
+          "family-website-prod"
+        ],
+        "family": [
+          "casarotto-family-base"
+        ],
+        "admin": [
+          "admin-casarotto-family"
+        ],
+        "cookbook": [
+          "cookbook-casarotto-family"
+        ],
+        "chat": [
+          "chat-casarotto-family"
+        ]
+      }
+    }
   }
 }
