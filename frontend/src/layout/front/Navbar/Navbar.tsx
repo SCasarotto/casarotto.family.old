@@ -21,11 +21,10 @@ const navLinks = [
 	{ to: '/our-story', label: 'Our Story' },
 	{ to: '/bridal-party', label: 'Bridal Party' },
 	{ to: '/event-details', label: 'Event Details' },
-	{ to: '/registry', label: 'Registry' },
-	{ to: '/rsvp', label: 'RSVP' },
+	{ to: '/messages', label: 'Messages' },
 ]
-const leftNavLinks = navLinks.filter((linkData, index) => index < Math.floor(navLinks.length / 2))
-const rightNavLinks = navLinks.filter((linkData, index) => index >= Math.floor(navLinks.length / 2))
+const leftNavLinks = navLinks.filter((linkData, index) => index <= Math.floor(navLinks.length / 2))
+const rightNavLinks = navLinks.filter((linkData, index) => index > Math.floor(navLinks.length / 2))
 
 interface Props {
 	location: RouteComponentProps['location']

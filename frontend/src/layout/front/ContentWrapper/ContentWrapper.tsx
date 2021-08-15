@@ -8,8 +8,7 @@ import { Home } from 'pages/front/Home'
 import { OurStory } from 'pages/front/OurStory'
 import { BridalParty } from 'pages/front/BridalParty'
 import { EventDetails } from 'pages/front/EventDetails'
-import { Registry } from 'pages/front/Registry'
-import { RSVP } from 'pages/front/RSVP'
+import { Messages } from 'pages/front/Messages'
 
 import { NotFound } from 'pages/front/NotFound'
 
@@ -50,8 +49,7 @@ export const ContentWrapper: React.FC<Props> = (props) => {
 							<Route path='/our-story' component={OurStory} />
 							<Route path='/bridal-party' component={BridalParty} />
 							<Route path='/event-details' component={EventDetails} />
-							<Route path='/registry' component={Registry} />
-							<Route path='/rsvp' component={RSVP} />
+							<Route path='/messages' component={Messages} />
 
 							<Route path='/comeonover' component={SignIn} />
 
