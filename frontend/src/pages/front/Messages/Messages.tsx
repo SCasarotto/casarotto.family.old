@@ -20,7 +20,7 @@ import {
 import { saveMessage } from './requests'
 import { useMessages } from './hooks'
 
-export const RSVP = () => {
+export const Messages = () => {
 	const popupFunctions = useTEPopups()
 	const { messageArray } = useMessages()
 
@@ -53,7 +53,7 @@ export const RSVP = () => {
 		<PageWrapper>
 			<Header>
 				<HeaderContent>
-					<HeaderTitle>We hope to see you there</HeaderTitle>
+					<HeaderTitle>Messages</HeaderTitle>
 				</HeaderContent>
 			</Header>
 			<MessageSection>
