@@ -1,5 +1,4 @@
 import icon from './icon.png';
-import './App.css';
 
 export const App = () => {
   return (
