@@ -5,7 +5,7 @@ on:
       - 'admin/**'
       - '.github/workflows/admin**'
 jobs:
-  Lint And Test:
+  Lint_And_Test:
     name: Lint
     runs-on: ubuntu-latest
     steps:
