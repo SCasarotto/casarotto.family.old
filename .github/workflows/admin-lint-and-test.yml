@@ -9,7 +9,7 @@ jobs:
     name: Lint And Test
     runs-on: ubuntu-latest
     steps:
-      - working-directory: ./admin
+      working-directory: ./admin
       - run: cd admin
       - run: yarn install
       - run: yarn lint
