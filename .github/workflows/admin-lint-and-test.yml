@@ -5,20 +5,11 @@ on:
       - 'admin/**'
       - '.github/workflows/admin**'
 jobs:
-  Navigate:
-    name: Navigate
-    runs-on: ubuntu-latest
-    steps:
-      - run: ls
-      - run: cd ./admin
-      - run: yarn install
-  Lint:
+  Lint And Test:
     name: Lint
     runs-on: ubuntu-latest
     steps:
+      - run: cd admin
+      - run: yarn install
       - run: yarn lint
-  Test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
       - run: yarn test
