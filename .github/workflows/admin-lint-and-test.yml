@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'admin/**'
+      - '.github/workflows/admin**'
 jobs:
   Navigate:
     name: Navigate
