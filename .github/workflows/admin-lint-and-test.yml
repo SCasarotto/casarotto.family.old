@@ -8,6 +8,7 @@ jobs:
     name: Navigate
     runs-on: ubuntu-latest
     steps:
+      - run: l
       - run: cd ./admin
       - run: yarn install
   Lint:
