@@ -6,9 +6,10 @@ on:
       - '.github/workflows/admin**'
 jobs:
   Lint_And_Test:
-    name: Lint
+    name: Lint And Test
     runs-on: ubuntu-latest
     steps:
+      - working-directory: ./admin
       - run: cd admin
       - run: yarn install
       - run: yarn lint
