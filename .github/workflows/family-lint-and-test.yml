@@ -1,0 +1,22 @@
+name: Family Lint & Test
+on:
+  push:
+    paths:
+      - 'family/**'
+jobs:
+  Navigate:
+    name: Navigate
+    runs-on: ubuntu-latest
+    steps:
+      - run: cd ./admin
+      - run: yarn install
+  Lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - run: yarn lint
+  Test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - run: yarn test
