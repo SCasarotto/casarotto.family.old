@@ -4,6 +4,12 @@ on:
     paths:
       - 'admin/**'
       - '.github/workflows/admin**'
+  push:
+    branches:
+      - master
+    paths:
+      - 'admin/**'
+      - '.github/workflows/admin**'
 jobs:
   lint_and_test:
     runs-on: ubuntu-latest
