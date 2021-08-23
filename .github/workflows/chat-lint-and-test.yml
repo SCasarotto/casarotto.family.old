@@ -3,20 +3,23 @@ on:
   push:
     paths:
       - 'chat/**'
+      - '.github/workflows/chat**'
+    pull_request:
+      paths:
+        - 'chat/**'
+        - '.github/workflows/chat**'
 jobs:
-  Navigate:
-    name: Navigate
+  Lint_And_Test:
+    name: Lint And Test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./chat
     steps:
-      - run: cd ./admin
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
       - run: yarn install
-  Lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - run: yarn lint
-  Test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - run: yarn test
+      - run: yarn lint --max-warnings=0
+      # - run: yarn test
