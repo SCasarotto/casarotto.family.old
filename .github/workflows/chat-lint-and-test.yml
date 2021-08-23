@@ -1,6 +1,6 @@
 name: Chat Lint & Test
 on:
-  push:
+  pull-request:
     paths:
       - 'chat/**'
       - '.github/workflows/chat**'
