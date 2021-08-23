@@ -1,0 +1,47 @@
+name: Cookbook Jobs
+on:
+  pull_request:
+    paths:
+      - 'cookbook/**'
+      - '.github/workflows/cookbook**'
+  push:
+    branches:
+      - master
+    paths:
+      - 'cookbook/**'
+      - '.github/workflows/cookbook**'
+jobs:
+  lint_and_test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./cookbook
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: yarn install
+      - run: yarn lint --max-warnings=0
+      # - run: yarn test
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    needs: [lint_and_test]
+    defaults:
+      run:
+        working-directory: ./cookbook
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: yarn install
+      - run: yarn build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FAMILY_WEBSITE_PROD }}'
+          channelId: live
+          projectId: family-website-prod
+          target: cookbook
