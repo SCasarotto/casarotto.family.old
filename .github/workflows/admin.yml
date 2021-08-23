@@ -1,6 +1,6 @@
 name: Admin Lint & Test
 on:
-  push:
+  pull_request:
     paths:
       - 'admin/**'
       - '.github/workflows/admin**'
