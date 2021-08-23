@@ -5,7 +5,7 @@ export const App = () => {
     <div className='App'>
       <header className='App-header'>
         <img src={icon} className='App-logo' alt='logo' />
-        <p>Placeholder For The Site To Come</p>
+        <p>Admin Site Will Be Here Soon</p>
       </header>
     </div>
   );
