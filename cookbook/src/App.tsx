@@ -1,5 +1,5 @@
-import icon from './icon.png'
-import './App.css'
+import icon from './icon.png';
+import './App.css';
 
 export const App = () => {
 	return (
@@ -9,5 +9,5 @@ export const App = () => {
 				<p>Placeholder For The Site To Come</p>
 			</header>
 		</div>
-	)
-}
+	);
+};
