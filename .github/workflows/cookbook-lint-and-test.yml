@@ -1,20 +1,20 @@
-name: Chat Lint & Test
+name: Cookbook Lint & Test
 on:
   push:
     paths:
-      - 'chat/**'
-      - '.github/workflows/chat**'
-    pull_request:
-      paths:
-        - 'chat/**'
-        - '.github/workflows/chat**'
+      - 'cookbook/**'
+      - '.github/workflows/cookbook**'
+  pull_request:
+    paths:
+      - 'cookbook/**'
+      - '.github/workflows/cookbook**'
 jobs:
   Lint_And_Test:
     name: Lint And Test
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./chat
+        working-directory: ./cookbook
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2

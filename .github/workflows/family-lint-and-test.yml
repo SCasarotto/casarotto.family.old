@@ -4,10 +4,10 @@ on:
     paths:
       - 'family/**'
       - '.github/workflows/family**'
-    pull_request:
-      paths:
-        - 'family/**'
-        - '.github/workflows/family**'
+  pull_request:
+    paths:
+      - 'family/**'
+      - '.github/workflows/family**'
 jobs:
   Lint_And_Test:
     name: Lint And Test

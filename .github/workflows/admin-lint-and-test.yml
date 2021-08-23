@@ -4,10 +4,10 @@ on:
     paths:
       - 'admin/**'
       - '.github/workflows/admin**'
-    pull_request:
-      paths:
-        - 'admin/**'
-        - '.github/workflows/admin**'
+  pull_request:
+    paths:
+      - 'admin/**'
+      - '.github/workflows/admin**'
 jobs:
   Lint_And_Test:
     name: Lint And Test
