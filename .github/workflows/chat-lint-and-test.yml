@@ -4,10 +4,6 @@ on:
     paths:
       - 'chat/**'
       - '.github/workflows/chat**'
-  pull_request:
-    paths:
-      - 'chat/**'
-      - '.github/workflows/chat**'
 jobs:
   Lint_And_Test:
     name: Lint And Test

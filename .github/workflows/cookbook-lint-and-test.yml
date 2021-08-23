@@ -4,10 +4,6 @@ on:
     paths:
       - 'cookbook/**'
       - '.github/workflows/cookbook**'
-  pull_request:
-    paths:
-      - 'cookbook/**'
-      - '.github/workflows/cookbook**'
 jobs:
   Lint_And_Test:
     name: Lint And Test
