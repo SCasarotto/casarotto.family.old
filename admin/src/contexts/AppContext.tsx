@@ -48,8 +48,8 @@ export const AppProvider: React.FC = (props) => {
         doc(getFirestore(), 'Users', internalUserUid).withConverter(
           firebaseConverter<RawUser>(),
         ),
-        (doc) => {
-          const user = doc.data();
+        (snapshot) => {
+          const user = snapshot.data();
           if (user?.active && user?.permissions?.includes('admin')) {
             setUser({ ...user, uid: internalUserUid });
           } else {

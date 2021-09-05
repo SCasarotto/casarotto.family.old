@@ -8,7 +8,7 @@ import { useSideNavActiveContext, useAppContext } from 'hooks';
 import { Navbar } from 'layout/admin/Navbar';
 import { SideNavbar } from 'layout/admin/SideNavbar';
 import { Dashboard } from 'pages/admin/Dashboard';
-// import { Users } from 'pages/admin/Users';
+import { Users } from 'pages/admin/Users';
 import { NotFound } from 'pages/admin/NotFound';
 
 import { BodyContainer, AdminContentWrapper } from './styledComponents';
@@ -48,11 +48,11 @@ export const ContentWrapper: React.FC<Props> = (props) => {
               authChecks={authChecks}
               component={Dashboard}
             />
-            {/* <PrivateRoute
+            <PrivateRoute
               path='/admin/users'
               authChecks={authChecks}
               component={Users}
-            /> */}
+            />
 
             <Route component={NotFound} />
           </Switch>
