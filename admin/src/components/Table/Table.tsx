@@ -20,12 +20,14 @@ export type TableProps<T extends object = {}> = {
   loading?: boolean;
   showPagination?: boolean;
   pageSizeOptions?: Array<number>;
+  className?: string;
 };
 export const Table = <T extends object = {}>(props: TableProps<T>) => {
   const {
     useTableOptions,
     showPagination = true,
     pageSizeOptions = [10, 20, 30, 40, 50],
+    className,
   } = props;
 
   const defaultColumn: Partial<Column<T>> = useMemo(
@@ -63,17 +65,21 @@ export const Table = <T extends object = {}>(props: TableProps<T>) => {
     usePagination,
   );
   return (
-    <TableWrapper>
+    <TableWrapper className={className}>
       <div className='table' {...getTableProps()}>
         <div className='thead'>
           {headerGroups.map((headerGroup) => (
             <div className='tr' {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <div
-                  className='th'
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  {...column.getHeaderProps(
+                    column.getSortByToggleProps({
+                      className: `th ${column.classNameHeader ?? ''}`,
+                    }),
+                  )}
                 >
                   {column.render('Header')}
+                  {/* TODO: Enable the abiltiy to remove sorting */}
                   {column.isSorted ? (
                     column.isSortedDesc ? (
                       <FaSortDown />
@@ -99,9 +105,13 @@ export const Table = <T extends object = {}>(props: TableProps<T>) => {
             <div className='tr filter' {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <div
-                  className='th filter'
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  {...column.getHeaderProps(
+                    column.getSortByToggleProps({
+                      className: `th filter${column.classNameHeader ?? ''}`,
+                    }),
+                  )}
                 >
+                  {/* TODO: Enable the abiltiy to remove filtering */}
                   {column.canFilter ? column.render('Filter') : null}
                 </div>
               ))}
@@ -115,7 +125,11 @@ export const Table = <T extends object = {}>(props: TableProps<T>) => {
               <div className='tr' {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <div className='td' {...cell.getCellProps()}>
+                    <div
+                      {...cell.getCellProps({
+                        className: `td ${cell.column.className}`,
+                      })}
+                    >
                       {cell.render('Cell')}
                     </div>
                   );

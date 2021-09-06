@@ -11,7 +11,9 @@ import { settings } from 'config/settings';
 import { colors } from 'theme';
 import { AppProvider, SideNavActiveProvider, TitleBarProvider } from 'contexts';
 
+import 'tippy.js/dist/tippy.css';
 import './index.css';
+
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 

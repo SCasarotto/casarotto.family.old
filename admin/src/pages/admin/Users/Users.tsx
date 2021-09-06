@@ -3,13 +3,13 @@ import { useMemo } from 'react';
 import { Column } from 'react-table';
 import { Panel, PanelWrapper } from 'react-tec';
 
-import { Table } from 'components';
+import { Table, TableLink } from 'components';
 import { User } from 'types';
 
 import { useUsers } from './hooks';
 
 export const Users = () => {
-  const { userArray, userArrayLoaded } = useUsers();
+  const { userArray } = useUsers();
 
   const columns: Array<Column<User>> = useMemo(
     () => [
@@ -26,6 +26,17 @@ export const Users = () => {
         id: 'active',
         Header: 'Active',
         accessor: (u) => (u.active ? 'Yes' : 'No'),
+      },
+      {
+        id: 'action',
+        Header: '',
+        accessor: 'uid',
+        canSort: false,
+        defaultCanSort: false,
+        canFilter: false,
+        Cell: (d: { value: string }) => (
+          <TableLink to={`/admin/users/${d.value}`} icon='details' />
+        ),
       },
     ],
     [],
