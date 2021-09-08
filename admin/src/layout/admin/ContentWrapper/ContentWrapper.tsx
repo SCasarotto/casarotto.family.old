@@ -8,8 +8,8 @@ import { useSideNavActiveContext, useAppContext } from 'hooks';
 import { Navbar } from 'layout/admin/Navbar';
 import { SideNavbar } from 'layout/admin/SideNavbar';
 import { Dashboard } from 'pages/admin/Dashboard';
-import { Users } from 'pages/admin/Users';
 import { NotFound } from 'pages/admin/NotFound';
+import { Users } from 'pages/admin/Users';
 
 import { BodyContainer, AdminContentWrapper } from './styledComponents';
 

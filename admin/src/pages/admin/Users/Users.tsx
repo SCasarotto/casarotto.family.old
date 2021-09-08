@@ -8,6 +8,10 @@ import { User } from 'types';
 
 import { useUsers } from './hooks';
 
+const DetailButton = (d: { value: string }) => (
+  <TableLink to={`/admin/users/${d.value}`} icon='details' />
+);
+
 export const Users = () => {
   const { userArray } = useUsers();
 
@@ -34,9 +38,7 @@ export const Users = () => {
         canSort: false,
         defaultCanSort: false,
         canFilter: false,
-        Cell: (d: { value: string }) => (
-          <TableLink to={`/admin/users/${d.value}`} icon='details' />
-        ),
+        Cell: DetailButton,
       },
     ],
     [],

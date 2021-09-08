@@ -1,4 +1,7 @@
+/* eslint-disable react/jsx-key */
 import { useMemo } from 'react';
+
+import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 import {
   useTable,
   Column,
@@ -8,26 +11,34 @@ import {
   usePagination,
   useFilters,
   TableOptions,
+  Row,
 } from 'react-table';
-
-import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 
 import { FilterBasic } from './FilterBasic';
 import { TableWrapper } from './styleComponents';
 
-export type TableProps<T extends object = {}> = {
+export type TableProps<
+  T extends Record<string, unknown> = Record<string, unknown>,
+> = {
   useTableOptions: TableOptions<T>;
   loading?: boolean;
   showPagination?: boolean;
   pageSizeOptions?: Array<number>;
   className?: string;
+  // TODO: Determine if there is a better way to do this
+  onRowClick?: (row: Row<T>) => void;
 };
-export const Table = <T extends object = {}>(props: TableProps<T>) => {
+export const Table = <
+  T extends Record<string, unknown> = Record<string, unknown>,
+>(
+  props: TableProps<T>,
+) => {
   const {
     useTableOptions,
     showPagination = true,
     pageSizeOptions = [10, 20, 30, 40, 50],
     className,
+    onRowClick,
   } = props;
 
   const defaultColumn: Partial<Column<T>> = useMemo(
@@ -122,7 +133,11 @@ export const Table = <T extends object = {}>(props: TableProps<T>) => {
           {page.map((row) => {
             prepareRow(row);
             return (
-              <div className='tr' {...row.getRowProps()}>
+              <div
+                className={`tr ${onRowClick ? 'pressabel' : undefined}`}
+                {...row.getRowProps()}
+                onClick={onRowClick ? () => onRowClick(row) : undefined}
+              >
                 {row.cells.map((cell) => {
                   return (
                     <div

@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react';
+
 import { Route, Switch } from 'react-router-dom';
 
 const Front = lazy(() => import('layout/front/ContentWrapper'));

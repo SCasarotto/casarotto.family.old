@@ -1,15 +1,15 @@
 import React from 'react';
 
-import ReactDOM from 'react-dom';
-import { AppWrapper } from 'react-tec';
 import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import { getPerformance } from 'firebase/performance';
+import ReactDOM from 'react-dom';
+import { AppWrapper } from 'react-tec';
 
 import { App } from 'App';
 import { settings } from 'config/settings';
-import { colors } from 'theme';
 import { AppProvider, SideNavActiveProvider, TitleBarProvider } from 'contexts';
+import { colors } from 'theme';
 
 import 'tippy.js/dist/tippy.css';
 import './index.css';

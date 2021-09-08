@@ -56,6 +56,14 @@ export const TableWrapper = styled.div`
       .tr {
         border-bottom: 1px solid ${colors.lighterGray};
 
+        &.pressable {
+          cursor: pointer;
+          transition: 0.1s background-color ease-in;
+
+          &:hover {
+            background-color: #f1f1f1;
+          }
+        }
         &:last-child {
           border-bottom: none;
         }
