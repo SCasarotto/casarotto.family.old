@@ -1,8 +1,8 @@
 import React from 'react';
 
-// import { getAnalytics } from 'firebase/analytics';
+import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
-// import { getPerformance } from 'firebase/performance';
+import { getPerformance } from 'firebase/performance';
 import ReactDOM from 'react-dom';
 import { AppWrapper } from 'react-tec';
 
@@ -17,7 +17,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-initializeApp({
+const app = initializeApp({
   apiKey: settings.FIREBASE_API_KEY,
   authDomain: settings.FIREBASE_AUTH_DOMAIN,
   databaseURL: settings.FIREBASE_DATABASE_URL,
@@ -27,10 +27,10 @@ initializeApp({
   appId: settings.FIREBASE_APP_ID,
   measurementId: settings.FIREBASE_MEASUREMENT_ID,
 });
-// if (settings.FIREBASE_PERFORMANCE) {
-//   getPerformance(app);
-//   getAnalytics(app);
-// }
+if (settings.FIREBASE_PERFORMANCE) {
+  getPerformance(app);
+  getAnalytics(app);
+}
 
 ReactDOM.render(
   <React.StrictMode>
