@@ -13,16 +13,15 @@ export const FilterBasic = <
 >(
   props: FilterBasicProps<T>,
 ) => {
-  const { column, ...rest } = props;
   const { filterValue, setFilter } = props.column;
 
   return (
     <FilterInput
+      name='columnSearch'
       value={filterValue || ''}
       onChange={(e) => {
         setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
       }}
-      {...rest}
     />
   );
 };

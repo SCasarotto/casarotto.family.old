@@ -124,11 +124,9 @@ export const Table = <
               <div className='tr filter' {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   <div
-                    {...column.getHeaderProps(
-                      column.getSortByToggleProps({
-                        className: `th filter${column.classNameHeader ?? ''}`,
-                      }),
-                    )}
+                    {...column.getHeaderProps({
+                      className: `th filter${column.classNameHeader ?? ''}`,
+                    })}
                   >
                     {/* TODO: Enable the abiltiy to remove filtering */}
                     {column.canFilter ? column.render('Filter') : null}
