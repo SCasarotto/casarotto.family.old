@@ -27,10 +27,10 @@ const app = initializeApp({
   appId: settings.FIREBASE_APP_ID,
   measurementId: settings.FIREBASE_MEASUREMENT_ID,
 });
-if (settings.FIREBASE_PERFORMANCE) {
-  getPerformance(app);
-  getAnalytics(app);
-}
+// if (settings.FIREBASE_PERFORMANCE) {
+//   getPerformance(app);
+//   getAnalytics(app);
+// }
 
 ReactDOM.render(
   <React.StrictMode>
