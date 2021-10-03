@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { doc, getFirestore, onSnapshot } from 'firebase/firestore';
 
-import { RawUser, User } from 'types';
 import { firebaseConverter } from 'helpers';
+import { RawUser, User } from 'types';
 
 export const useUser = (uid: string) => {
   const [user, setUser] = useState<User>();

@@ -1,13 +1,13 @@
+import { createUserWithEmailAndPassword, getAuth } from '@firebase/auth';
+import { addDoc, collection } from '@firebase/firestore';
 import { initializeApp, deleteApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 import { usePopupsFunctions } from 'react-tec';
 import validate from 'validate.js';
 
-import { Permission, RawUser } from 'types';
-import { generateRandomCode } from 'helpers';
 import { settings } from 'config/settings';
-import { createUserWithEmailAndPassword, getAuth } from '@firebase/auth';
-import { addDoc, collection } from '@firebase/firestore';
-import { doc, getFirestore } from 'firebase/firestore';
+import { generateRandomCode } from 'helpers';
+import { Permission, RawUser } from 'types';
 
 interface Data {
   firstName: string;
@@ -71,7 +71,7 @@ export const addUser = async (data: Data) => {
 
     const auth = getAuth(secondaryFirebaseApp);
     const newUser = await createUserWithEmailAndPassword(auth, email, password);
-    const userUID = newUser.user!.uid;
+    const userUID = newUser.user.uid;
 
     if (!userUID) {
       throw new Error('No UID Found or Created');

@@ -1,8 +1,8 @@
+import { doc, getFirestore, updateDoc } from 'firebase/firestore';
 import { usePopupsFunctions } from 'react-tec';
 import validate from 'validate.js';
 
 import { User } from 'types';
-import { doc, getFirestore, updateDoc } from 'firebase/firestore';
 
 export type UpdateUserData = Omit<User, 'uid' | 'email' | 'dateCreated'>;
 export const saveUserDetails = async (

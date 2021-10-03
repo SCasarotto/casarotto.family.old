@@ -1,5 +1,3 @@
-import { Table } from 'components';
-import { PermissionArray } from 'config/localData';
 import { useState, useEffect, useMemo } from 'react';
 
 import { RouteComponentProps } from 'react-router';
@@ -13,13 +11,14 @@ import {
   Button,
   SegmentedGroup,
   usePopups,
-  TextareaRow,
   CheckboxGroup,
 } from 'react-tec';
 
+import { Table } from 'components';
+import { PermissionArray } from 'config/localData';
 import { Permission, User as UserType } from 'types';
-import { useUser } from './hooks';
 
+import { useUser } from './hooks';
 import { saveUserDetails } from './requests';
 
 interface Props extends RouteComponentProps<{ uid: string }> {}

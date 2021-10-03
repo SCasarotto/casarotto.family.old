@@ -6,8 +6,8 @@ import { Panel, PanelWrapper } from 'react-tec';
 import { PanelActionButton, Table, TableLink } from 'components';
 import { User } from 'types';
 
-import { useUsers } from './hooks';
 import { AddUserPopup } from './AddUserPopup';
+import { useUsers } from './hooks';
 
 const DetailButton = (d: { value: string }) => (
   <TableLink to={`/admin/users/${d.value}`} icon='details' />

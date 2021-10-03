@@ -1,13 +1,6 @@
 import { useState } from 'react';
 
-import {
-  PopupForm,
-  InputRow,
-  usePopups,
-  CheckboxGroup,
-  FormRow,
-  Label,
-} from 'react-tec';
+import { PopupForm, InputRow, usePopups, CheckboxGroup } from 'react-tec';
 
 import { PopupTitle } from 'components';
 import { PermissionArray } from 'config/localData';
