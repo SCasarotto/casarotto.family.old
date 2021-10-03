@@ -9,6 +9,7 @@ import { Navbar } from 'layout/admin/Navbar';
 import { SideNavbar } from 'layout/admin/SideNavbar';
 import { Dashboard } from 'pages/admin/Dashboard';
 import { NotFound } from 'pages/admin/NotFound';
+import { User } from 'pages/admin/User';
 import { Users } from 'pages/admin/Users';
 
 import { BodyContainer, AdminContentWrapper } from './styledComponents';
@@ -47,6 +48,11 @@ export const ContentWrapper: React.FC<Props> = (props) => {
               path='/admin/dashboard'
               authChecks={authChecks}
               component={Dashboard}
+            />
+            <PrivateRoute
+              path='/admin/users/:uid'
+              authChecks={authChecks}
+              component={User}
             />
             <PrivateRoute
               path='/admin/users'

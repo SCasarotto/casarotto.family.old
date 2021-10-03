@@ -32,6 +32,8 @@ export const useUsers = () => {
 
     return () => {
       usersUnsubscribe();
+      setUserArray([]);
+      setUserArrayLoaded(false);
     };
   }, []);
 

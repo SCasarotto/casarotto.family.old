@@ -13,6 +13,7 @@ export const TableWrapper = styled.div`
     .thead {
       .tr {
         border-bottom: 1px solid ${colors.lighterGray};
+        background-color: #f7f7f7;
 
         .th {
           position: relative;
@@ -20,7 +21,7 @@ export const TableWrapper = styled.div`
           padding: 0.5rem 0.35rem;
           border-right: 1px solid ${colors.lighterGray};
           font-size: 0.9rem;
-          color: ${colors.darkGray};
+          color: ${colors.darkerGray};
           font-weight: 700;
           display: flex;
           align-items: center;

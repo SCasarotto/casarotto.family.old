@@ -27,6 +27,8 @@ export type TableProps<
   className?: string;
   // TODO: Determine if there is a better way to do this
   onRowClick?: (row: Row<T>) => void;
+  sortable?: boolean;
+  filterable?: boolean;
 };
 export const Table = <
   T extends Record<string, unknown> = Record<string, unknown>,
@@ -39,6 +41,8 @@ export const Table = <
     pageSizeOptions = [10, 20, 30, 40, 50],
     className,
     onRowClick,
+    sortable = true,
+    filterable = true,
   } = props;
 
   const defaultColumn: Partial<Column<T>> = useMemo(
@@ -67,6 +71,8 @@ export const Table = <
   } = useTable(
     {
       defaultColumn,
+      disableFilters: !filterable,
+      disableSortBy: !sortable,
       ...useTableOptions,
     },
     useFlexLayout,
@@ -90,16 +96,17 @@ export const Table = <
                   )}
                 >
                   {column.render('Header')}
-                  {/* TODO: Enable the abiltiy to remove sorting */}
-                  {column.isSorted ? (
-                    column.isSortedDesc ? (
-                      <FaSortDown />
+                  {sortable ? (
+                    column.isSorted ? (
+                      column.isSortedDesc ? (
+                        <FaSortDown />
+                      ) : (
+                        <FaSortUp />
+                      )
                     ) : (
-                      <FaSortUp />
+                      <FaSort />
                     )
-                  ) : (
-                    <FaSort />
-                  )}
+                  ) : null}
                   {column.canResize && (
                     <div
                       {...column.getResizerProps()}
@@ -112,22 +119,23 @@ export const Table = <
               ))}
             </div>
           ))}
-          {headerGroups.map((headerGroup) => (
-            <div className='tr filter' {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <div
-                  {...column.getHeaderProps(
-                    column.getSortByToggleProps({
-                      className: `th filter${column.classNameHeader ?? ''}`,
-                    }),
-                  )}
-                >
-                  {/* TODO: Enable the abiltiy to remove filtering */}
-                  {column.canFilter ? column.render('Filter') : null}
-                </div>
-              ))}
-            </div>
-          ))}
+          {filterable &&
+            headerGroups.map((headerGroup) => (
+              <div className='tr filter' {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <div
+                    {...column.getHeaderProps(
+                      column.getSortByToggleProps({
+                        className: `th filter${column.classNameHeader ?? ''}`,
+                      }),
+                    )}
+                  >
+                    {/* TODO: Enable the abiltiy to remove filtering */}
+                    {column.canFilter ? column.render('Filter') : null}
+                  </div>
+                ))}
+              </div>
+            ))}
         </div>
         <div className='tbody' {...getTableBodyProps()}>
           {page.map((row) => {

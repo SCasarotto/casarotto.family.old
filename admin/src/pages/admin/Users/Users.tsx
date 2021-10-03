@@ -1,12 +1,13 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Column } from 'react-table';
 import { Panel, PanelWrapper } from 'react-tec';
 
-import { Table, TableLink } from 'components';
+import { PanelActionButton, Table, TableLink } from 'components';
 import { User } from 'types';
 
 import { useUsers } from './hooks';
+import { AddUserPopup } from './AddUserPopup';
 
 const DetailButton = (d: { value: string }) => (
   <TableLink to={`/admin/users/${d.value}`} icon='details' />
@@ -14,6 +15,7 @@ const DetailButton = (d: { value: string }) => (
 
 export const Users = () => {
   const { userArray } = useUsers();
+  const [addVisible, setAddVisible] = useState(false);
 
   const columns: Array<Column<User>> = useMemo(
     () => [
@@ -46,7 +48,14 @@ export const Users = () => {
 
   return (
     <PanelWrapper>
-      <Panel title='Users'>
+      <Panel
+        title='Users'
+        rightComponent={
+          <PanelActionButton onClick={() => setAddVisible(true)}>
+            Add User
+          </PanelActionButton>
+        }
+      >
         <Table
           useTableOptions={{
             data: userArray,
@@ -54,6 +63,11 @@ export const Users = () => {
           }}
         />
       </Panel>
+      <AddUserPopup
+        visible={addVisible}
+        onClose={() => setAddVisible(false)}
+        onSubmit={() => setAddVisible(false)}
+      />
     </PanelWrapper>
   );
 };
