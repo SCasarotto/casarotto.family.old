@@ -13,19 +13,24 @@ import { User } from 'pages/admin/User';
 import { Users } from 'pages/admin/Users';
 
 import { BodyContainer, AdminContentWrapper } from './styledComponents';
-
-const authChecks = [
-  {
-    check: () => !!getAuth()?.currentUser,
-    path: '/',
-  },
-];
+import { useMemo } from 'react-datepicker/node_modules/@types/react';
 
 interface Props extends RouteChildrenProps {}
 export const ContentWrapper: React.FC<Props> = (props) => {
   const { history } = props;
   const { sideNavActive } = useSideNavActiveContext();
   const { user, userLoaded } = useAppContext();
+
+  const userHasAdminPermission = !!user?.permissions.includes('admin');
+  const authChecks = useMemo(
+    () => [
+      {
+        check: () => !!getAuth()?.currentUser && userHasAdminPermission,
+        path: '/',
+      },
+    ],
+    [userHasAdminPermission],
+  );
 
   //If User Loaded with No User => Kick them out
   if (userLoaded && !user) {
