@@ -55,9 +55,9 @@ export const signInUser = async (data: Data) => {
       doc(db, 'Users', uid).withConverter(firebaseConverter<RawUser>()),
     );
     const user = userModelSnapshot.data();
-    if (user?.active && user.permissions?.includes('admin')) {
+    if (user?.active && user.permissions?.includes('chat')) {
       hideNetworkActivity();
-      history.push('/admin/dashboard');
+      history.push('/chat/chatroom');
       return;
     }
     getAuth().signOut();

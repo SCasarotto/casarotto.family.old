@@ -8,7 +8,7 @@ import { AppWrapper } from 'react-tec';
 
 import { App } from 'App';
 import { settings } from 'config/settings';
-import { AppProvider, SideNavActiveProvider, TitleBarProvider } from 'contexts';
+import { AppProvider } from 'contexts';
 import { colors } from 'theme';
 
 import 'tippy.js/dist/tippy.css';
@@ -36,11 +36,7 @@ ReactDOM.render(
   <React.StrictMode>
     <AppWrapper theme={colors}>
       <AppProvider>
-        <SideNavActiveProvider>
-          <TitleBarProvider>
-            <App />
-          </TitleBarProvider>
-        </SideNavActiveProvider>
+        <App />
       </AppProvider>
     </AppWrapper>
   </React.StrictMode>,

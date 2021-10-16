@@ -20,7 +20,7 @@ import {
   ChatSendButton,
 } from './styledComponents';
 
-export const ChatRoom = () => {
+export const Chatroom = () => {
   const popupFunctions = usePopups();
   const { users, usersLoaded } = useUsers();
   const { messageArray, messageArrayLoaded } = useMessages();

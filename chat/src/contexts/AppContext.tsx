@@ -57,7 +57,7 @@ export const AppProvider: React.FC = (props) => {
         ),
         (snapshot) => {
           const user = snapshot.data();
-          if (user?.active && user?.permissions?.includes('admin')) {
+          if (user?.active && user?.permissions?.includes('chat')) {
             setUser({ ...user, uid: internalUserUid });
           } else {
             getAuth().signOut();
