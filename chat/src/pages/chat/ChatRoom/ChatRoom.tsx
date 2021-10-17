@@ -20,6 +20,15 @@ import {
   ChatSendButton,
 } from './styledComponents';
 
+// TODO:
+//  - Only Load the most recent messages
+//  - Paginate
+//  - Virtualize
+//  - Scroll To Bottom Logic
+//  - Update Style
+//  - Convert input to textarea and handle return vs submit
+//  - Find chat link parser
+
 export const Chatroom = () => {
   const popupFunctions = usePopups();
   const { users, usersLoaded } = useUsers();
