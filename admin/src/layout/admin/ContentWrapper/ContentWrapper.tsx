@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { getAuth } from 'firebase/auth';
-import { useMemo } from 'react-datepicker/node_modules/@types/react';
 import { Switch, RouteChildrenProps, Route, Redirect } from 'react-router-dom';
 import { PrivateRoute } from 'react-tec';
 
