@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { getAuth } from 'firebase/auth';
+import { useMemo } from 'react-datepicker/node_modules/@types/react';
 import { Switch, RouteChildrenProps, Route, Redirect } from 'react-router-dom';
 import { PrivateRoute } from 'react-tec';
 
@@ -13,7 +14,6 @@ import { User } from 'pages/admin/User';
 import { Users } from 'pages/admin/Users';
 
 import { BodyContainer, AdminContentWrapper } from './styledComponents';
-import { useMemo } from 'react-datepicker/node_modules/@types/react';
 
 interface Props extends RouteChildrenProps {}
 export const ContentWrapper: React.FC<Props> = (props) => {
