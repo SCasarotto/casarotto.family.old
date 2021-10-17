@@ -6,7 +6,7 @@ import { PrivateRoute } from 'react-tec';
 
 import { useAppContext } from 'contexts';
 import { Navbar } from 'layout/chat/Navbar';
-import { Chatroom } from 'pages/chat/Chatroom';
+import { Chatroom } from 'pages/chat/ChatroomTEST';
 import { NotFound } from 'pages/chat/NotFound';
 
 import { Wrapper } from './styledComponents';
