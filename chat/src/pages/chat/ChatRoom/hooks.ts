@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { getFirestore, collection, onSnapshot } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  onSnapshot,
+  query,
+  orderBy,
+  limit,
+} from 'firebase/firestore';
 
 import { firebaseConverter } from 'helpers';
 import { Message, RawMessage, RawUser, User } from 'types';
@@ -39,15 +46,18 @@ export const useUsers = () => {
 
   return { users, usersLoaded };
 };
-export const useMessages = () => {
+// This way of loading messages is a little ugly but should be a quick solution
+export const useMessages = (messagesToLoad: number) => {
   const [messageArray, setMessageArray] = useState<Array<Message>>([]);
   const [messageArrayLoaded, setMessageArrayLoaded] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
-      collection(getFirestore(), 'Messages').withConverter(
-        firebaseConverter<RawMessage>(),
-      ),
+      query(
+        collection(getFirestore(), 'Messages'),
+        orderBy('dateCreated', 'desc'),
+        limit(messagesToLoad),
+      ).withConverter(firebaseConverter<RawMessage>()),
       (snapshot) => {
         const newMessageArray: Array<Message> = [];
         snapshot.forEach((doc) => {
@@ -66,10 +76,8 @@ export const useMessages = () => {
 
     return () => {
       unsubscribe();
-      setMessageArray([]);
-      setMessageArrayLoaded(false);
     };
-  }, []);
+  }, [messagesToLoad]);
 
   return { messageArray, messageArrayLoaded };
 };

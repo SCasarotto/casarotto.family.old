@@ -1,10 +1,10 @@
 import { getAuth } from '@firebase/auth';
-import { addDoc, serverTimestamp } from '@firebase/firestore';
+import { addDoc } from '@firebase/firestore';
 import { collection, getFirestore } from 'firebase/firestore';
 import { usePopupsFunctions } from 'react-tec';
 import validate from 'validate.js';
 
-import { RawMessageCreate } from 'types';
+import { RawMessage } from 'types';
 
 type SendMessageData = {
   message: string;
@@ -39,8 +39,8 @@ export const sendMessage = async (data: SendMessageData) => {
 
   try {
     showNetworkActivity('Sending Message...');
-    const messageData: RawMessageCreate = {
-      dateCreated: serverTimestamp(),
+    const messageData: RawMessage = {
+      dateCreated: Date.now(),
       message,
       senderUid: uid,
     };

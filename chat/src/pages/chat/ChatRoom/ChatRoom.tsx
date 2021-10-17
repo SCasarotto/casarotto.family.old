@@ -1,5 +1,6 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useLayoutEffect, useRef, useState } from 'react';
 
+import useStayScrolled from 'react-stay-scrolled';
 import { Spinner, usePopups } from 'react-tec';
 
 import { formatDate } from 'helpers';
@@ -9,6 +10,8 @@ import { sendMessage } from './requests';
 import {
   ChatContainer,
   ChatBody,
+  LoadMoreButtonWrapper,
+  LoadMoreButton,
   MessageWrapper,
   MessageSenderName,
   MessageTime,
@@ -24,22 +27,38 @@ import {
 //  - Only Load the most recent messages
 //  - Paginate
 //  - Virtualize
-//  - Scroll To Bottom Logic
 //  - Update Style
 //  - Convert input to textarea and handle return vs submit
-//  - Find chat link parser
 
 export const Chatroom = () => {
   const popupFunctions = usePopups();
   const { users, usersLoaded } = useUsers();
-  const { messageArray, messageArrayLoaded } = useMessages();
 
+  const [messageCountToLoad, setMessageCountToLoad] = useState(10);
+  const { messageArray, messageArrayLoaded } = useMessages(messageCountToLoad);
+
+  // Scroll To Bottom
+  const chatBodyRef = useRef<HTMLDivElement>(null);
+  const { stayScrolled, scrollBottom } = useStayScrolled(chatBodyRef);
+  // Initial Scroll To Bottom
+  useLayoutEffect(() => {
+    if (messageArrayLoaded) {
+      scrollBottom();
+    }
+  }, [messageArrayLoaded, scrollBottom]);
+
+  // Keep scrolled to bottom
+  useLayoutEffect(() => {
+    stayScrolled();
+  }, [messageArray.length, stayScrolled]);
+
+  // Input Form
   const [messageText, setMessageText] = useState('');
 
   const handleSendMessage = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      await sendMessage({ message: messageText, popupFunctions });
+      await sendMessage({ message: messageText.trim(), popupFunctions });
       setMessageText('');
     } catch (e) {
       console.error(e);
@@ -48,26 +67,41 @@ export const Chatroom = () => {
 
   return (
     <ChatContainer>
-      <ChatBody>
+      <ChatBody ref={chatBodyRef}>
         {messageArrayLoaded && usersLoaded ? (
-          messageArray.map((messageData) => {
-            const { uid, dateCreated, senderUid, message } = messageData;
-            const { firstName, lastName } = users[senderUid] ?? {};
-            return (
-              <MessageWrapper key={uid}>
-                <MessageSenderName>
-                  {firstName} {lastName}
-                </MessageSenderName>
-                <MessageTime>
-                  {formatDate({
-                    date: dateCreated,
-                    defaultFormat: 'datetimeShort',
-                  })}
-                </MessageTime>
-                <MessageText>{message}</MessageText>
-              </MessageWrapper>
-            );
-          })
+          <>
+            {messageArray.map((messageData) => {
+              const { uid, dateCreated, senderUid, message } = messageData;
+              const { firstName, lastName } = users[senderUid] ?? {};
+              return (
+                <MessageWrapper key={uid}>
+                  <MessageSenderName>
+                    {firstName} {lastName}
+                  </MessageSenderName>
+                  <MessageTime>
+                    {formatDate({
+                      date: dateCreated,
+                      defaultFormat: 'datetimeShort',
+                    })}
+                  </MessageTime>
+                  <MessageText
+                    tagName='span'
+                    options={{ defaultProtocol: 'https' }}
+                  >
+                    {message}
+                  </MessageText>
+                </MessageWrapper>
+              );
+            })}
+            <LoadMoreButtonWrapper>
+              <LoadMoreButton
+                onClick={() => setMessageCountToLoad((c) => c + 10)}
+                type='button'
+              >
+                Load More
+              </LoadMoreButton>
+            </LoadMoreButtonWrapper>
+          </>
         ) : (
           <ChatLoadingWrapper>
             <Spinner size='large' />
@@ -80,6 +114,11 @@ export const Chatroom = () => {
           placeholder='Write a message...'
           onChange={(e) => setMessageText(e.target.value)}
           value={messageText}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              handleSendMessage(e);
+            }
+          }}
         />
         <ChatSendButton type='submit' disabled={!messageText}>
           Send

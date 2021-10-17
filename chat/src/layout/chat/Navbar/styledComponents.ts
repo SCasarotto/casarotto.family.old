@@ -1,7 +1,7 @@
+import { NavLink as NL } from 'react-router-dom';
 import { Button } from 'react-tec';
 import styled from 'styled-components';
 
-import { NavLink as NL } from 'react-router-dom';
 import { colors } from 'theme';
 
 export const Container = styled.nav`

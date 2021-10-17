@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { RouteComponentProps } from 'react-router';
-import { Link } from 'react-router-dom';
 import { usePopups } from 'react-tec';
 
 import { submitForgotPassword } from './requests';

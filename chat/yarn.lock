@@ -7812,6 +7812,16 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
+linkify-react@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/linkify-react/-/linkify-react-3.0.3.tgz#97d420694cb173e46f75fb2b7de6f3887059ad4f"
+  integrity sha512-CdERZyocGB+2sHYKMKltAWy5TyelgocnMI7SU5vdT0ojtZd1u8sRuntXrxjA3tvgTirtLm2nD7gDdJFaVXvDAw==
+
+linkifyjs@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/linkifyjs/-/linkifyjs-3.0.3.tgz#51ea2160b4c60c2c87c27757a1e9eacd422c6076"
+  integrity sha512-ba5opS5wRHSbDC8VaiDdN14nPGm6LqyRsIPQZGG4qXV4scFdrPneT/uoZOaq9QAPBf6W9I9D/6tNSzWH//815Q==
+
 load-json-file@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-4.0.0.tgz#2f5f45ab91e33216234fd53adab668eb4ec0993b"
@@ -8045,7 +8055,7 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
-memoize-one@^5.0.0:
+memoize-one@^5.0.0, memoize-one@^5.1.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.2.1.tgz#8337aa3c4335581839ec01c3d594090cebe8f00e"
   integrity sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==
@@ -10268,6 +10278,14 @@ react-side-effect@^2.1.0:
   resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-2.1.1.tgz#66c5701c3e7560ab4822a4ee2742dee215d72eb3"
   integrity sha512-2FoTQzRNTncBVtnzxFOk2mCpcfxQpenBMbk5kSVBg5UcPqV9fRbgY2zhb7GTWWOlpFmAxhClBDlIq8Rsubz1yQ==
 
+react-stay-scrolled@^7.3.1:
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/react-stay-scrolled/-/react-stay-scrolled-7.3.1.tgz#13fca6b73c119dd659e29dda57409cdfdde55740"
+  integrity sha512-Qn8hBnuhUjKHsFHOuF1l/Jzpq08b4+pjYzOtMVYT2qSnmwRO7xfbEOpjuVPZs2tiZAacdIsZHXGm5YaUticgJg==
+  dependencies:
+    memoize-one "^5.1.1"
+    tiny-invariant "^1.1.0"
+
 react-table@^7.7.0:
   version "7.7.0"
   resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.7.0.tgz#e2ce14d7fe3a559f7444e9ecfe8231ea8373f912"
@@ -11714,7 +11732,7 @@ timsort@^0.3.0:
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
-tiny-invariant@^1.0.2:
+tiny-invariant@^1.0.2, tiny-invariant@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.1.0.tgz#634c5f8efdc27714b7f386c35e6760991d230875"
   integrity sha512-ytxQvrb1cPc9WBEI/HSeYYoGD0kWnGEOR8RY6KomWLBVhqz0RgTwVO9dLrGz7dC+nN9llyI7OKAgRq8Vq4ZBSw==

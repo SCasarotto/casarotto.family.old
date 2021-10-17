@@ -14,7 +14,7 @@ import { Wrapper } from './styledComponents';
 interface Props extends RouteChildrenProps {}
 export const ContentWrapper: React.FC<Props> = (props) => {
   const { history } = props;
-  const { user, userLoaded } = useAppContext();
+  const { fbUser, fbUserLoaded, user, userLoaded } = useAppContext();
 
   const userHasChatPermission = !!user?.permissions.includes('chat');
   const authChecks = useMemo(
@@ -28,7 +28,7 @@ export const ContentWrapper: React.FC<Props> = (props) => {
   );
 
   //If User Loaded with No User => Kick them out
-  if (userLoaded && !user) {
+  if ((fbUserLoaded && !fbUser) || (fbUserLoaded && userLoaded && !user)) {
     return <Redirect to='/' />;
   }
 

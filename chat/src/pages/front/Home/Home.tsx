@@ -1,8 +1,16 @@
-import { useAppContext } from 'contexts';
 import React from 'react';
+
 import { Link } from 'react-router-dom';
 
-import { PanelWrapper, Panel } from './styledComponents';
+import { useAppContext } from 'contexts';
+
+import {
+  PanelWrapper,
+  Panel,
+  ActionWrapper,
+  ActionTitle,
+  ActionLink,
+} from './styledComponents';
 
 export const Home: React.FC = () => {
   const { user } = useAppContext();
@@ -11,9 +19,15 @@ export const Home: React.FC = () => {
       <Panel>
         <h1 style={{ textAlign: 'center' }}>Welcome to CasaChat</h1>
         {user?.permissions.includes('chat') ? (
-          <Link to='/sign-in'>Sign In</Link>
+          <ActionWrapper>
+            <ActionTitle>Looks like you are already signed in.</ActionTitle>
+            <ActionLink to='/chat/chatroom'>Right this way</ActionLink>
+          </ActionWrapper>
         ) : (
-          <Link to='/chat/chatroom'>Right this way</Link>
+          <ActionWrapper>
+            <ActionTitle>You will need to sign in to continue.</ActionTitle>
+            <Link to='/sign-in'>Sign In</Link>
+          </ActionWrapper>
         )}
       </Panel>
     </PanelWrapper>
