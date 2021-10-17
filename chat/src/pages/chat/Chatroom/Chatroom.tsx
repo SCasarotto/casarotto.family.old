@@ -65,44 +65,46 @@ export const Chatroom = () => {
     }
   };
 
+  const allLoaded = messageArrayLoaded && usersLoaded;
+
   return (
     <ChatContainer>
       <ChatBody ref={chatBodyRef}>
-        {messageArrayLoaded && usersLoaded ? (
-          <>
-            {messageArray.map((messageData) => {
-              const { uid, dateCreated, senderUid, message } = messageData;
-              const { firstName, lastName } = users[senderUid] ?? {};
-              return (
-                <MessageWrapper key={uid}>
-                  <MessageSenderName>
-                    {firstName} {lastName}
-                  </MessageSenderName>
-                  <MessageTime>
-                    {formatDate({
-                      date: dateCreated,
-                      defaultFormat: 'datetimeShort',
-                    })}
-                  </MessageTime>
-                  <MessageText
-                    tagName='span'
-                    options={{ defaultProtocol: 'https' }}
-                  >
-                    {message}
-                  </MessageText>
-                </MessageWrapper>
-              );
-            })}
-            <LoadMoreButtonWrapper>
-              <LoadMoreButton
-                onClick={() => setMessageCountToLoad((c) => c + 10)}
-                type='button'
-              >
-                Load More
-              </LoadMoreButton>
-            </LoadMoreButtonWrapper>
-          </>
-        ) : (
+        {allLoaded &&
+          messageArray.map((messageData) => {
+            const { uid, dateCreated, senderUid, message } = messageData;
+            const { firstName, lastName } = users[senderUid] ?? {};
+            return (
+              <MessageWrapper key={uid}>
+                <MessageSenderName>
+                  {firstName} {lastName}
+                </MessageSenderName>
+                <MessageTime>
+                  {formatDate({
+                    date: dateCreated,
+                    defaultFormat: 'datetimeShort',
+                  })}
+                </MessageTime>
+                <MessageText
+                  tagName='span'
+                  options={{ defaultProtocol: 'https' }}
+                >
+                  {message}
+                </MessageText>
+              </MessageWrapper>
+            );
+          })}
+        {allLoaded && messageArray.length === messageCountToLoad && (
+          <LoadMoreButtonWrapper>
+            <LoadMoreButton
+              onClick={() => setMessageCountToLoad((c) => c + 10)}
+              type='button'
+            >
+              Load More
+            </LoadMoreButton>
+          </LoadMoreButtonWrapper>
+        )}
+        {!allLoaded && (
           <ChatLoadingWrapper>
             <Spinner size='large' />
             <ChatLoadingMessage>Loading...</ChatLoadingMessage>
