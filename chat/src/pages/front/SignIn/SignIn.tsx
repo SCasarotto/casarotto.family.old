@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { RouteComponentProps } from 'react-router';
-import { Link } from 'react-router-dom';
 import { usePopups } from 'react-tec';
 
 import { signInUser } from './requests';
@@ -13,6 +12,7 @@ import {
   Input,
   ButtonContainer,
   Button,
+  Forgot,
 } from './styledComponents';
 
 interface Props extends RouteComponentProps {}
@@ -56,8 +56,8 @@ export const SignIn: React.FC<Props> = (props) => {
             required
           />
           <ButtonContainer>
+            <Forgot to='/forgot-password'>Forgot Password?</Forgot>
             <Button type='submit'>Sign In</Button>
-            <Link to='/forgot-password'>Forgot Password?</Link>
           </ButtonContainer>
         </Form>
       </Panel>

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { getAuth } from 'firebase/auth';
 import { RouteChildrenProps } from 'react-router';
-import { NavLink } from 'react-router-dom';
 
 import logo from 'assets/images/logo.png';
 
@@ -13,6 +12,7 @@ import {
   LogoImage,
   Title,
   RightWrapper,
+  NavLink,
   SignOutButton,
 } from './styledComponents';
 
@@ -35,8 +35,8 @@ export const Navbar: React.FC<Props> = (props) => {
           <Title>CasaChat</Title>
         </LeftWrapper>
         <RightWrapper>
-          <NavLink to='/chat/chat-room'>Chat</NavLink>
-          <NavLink to='/chat/settings'>Settings</NavLink>
+          <NavLink to='/chat/chatroom'>Chatroom</NavLink>
+          {/* <NavLink to='/chat/settings'>Settings</NavLink> */}
           <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
         </RightWrapper>
       </Content>

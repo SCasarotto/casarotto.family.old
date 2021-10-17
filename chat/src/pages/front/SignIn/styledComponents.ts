@@ -28,7 +28,7 @@ export const Title = styled.h1`
   font-size: 44px;
   text-align: center;
   margin-top: 0px;
-  margin-bottom: 40px;
+  margin-bottom: 2rem;
 `;
 export const Input = styled(InputRow)`
   .InputRowInput {
@@ -52,7 +52,6 @@ export const ButtonContainer = styled.div`
   width: 100%;
 `;
 export const Forgot = styled(Link)`
-  text-decoration: none;
   color: ${(props) => props.theme.white};
   font-size: 18px;
 `;

@@ -28,8 +28,9 @@ export const Title = styled.h1`
   font-size: 44px;
   text-align: center;
   margin-top: 0px;
-  margin-bottom: 40px;
+  margin-bottom: 2rem;
 `;
+
 export const Input = styled(InputRow)`
   .InputRowInput {
     border: none;
@@ -48,14 +49,9 @@ export const Input = styled(InputRow)`
 `;
 export const ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  justify-content: center;
 `;
-export const Forgot = styled(Link)`
-  text-decoration: none;
-  color: ${(props) => props.theme.white};
-  font-size: 18px;
-`;
+
 export const Button = styled(TecButton)`
   width: auto;
   padding: 10px 50px;
@@ -64,4 +60,12 @@ export const Button = styled(TecButton)`
   :hover {
     border: 1px solid ${(props) => props.theme.white};
   }
+`;
+
+export const SignIn = styled(Link)`
+  color: ${(props) => props.theme.white};
+  font-size: 18px;
+  text-align: center;
+  display: block;
+  margin-top: 2rem;
 `;

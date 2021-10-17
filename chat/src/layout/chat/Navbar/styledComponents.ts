@@ -1,6 +1,9 @@
 import { Button } from 'react-tec';
 import styled from 'styled-components';
 
+import { NavLink as NL } from 'react-router-dom';
+import { colors } from 'theme';
+
 export const Container = styled.nav`
   width: 100%;
   padding-left: 10px;
@@ -62,12 +65,40 @@ export const RightWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
+export const NavLink = styled(NL)`
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.25rem;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: ${colors.darkerGray};
+  border-bottom: 4px solid transparent;
+  transition: color 0.2s ease-in, border-color 0.2s ease-in;
+
+  &.active {
+    color: ${colors.primary};
+    border-bottom-color: ${colors.primary};
+  }
+  :active,
+  :hover {
+    color: ${colors.primary};
+    border-bottom-color: ${colors.primary};
+  }
+`;
 export const SignOutButton = styled(Button)`
   border: none;
   width: auto;
   padding: 0px;
-  font-size: 16px;
+  font-size: 1rem;
   background-color: transparent;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font-weight: 600;
+  padding-bottom: 0.25rem;
 
   :active,
   :hover {

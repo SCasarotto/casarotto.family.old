@@ -13,6 +13,7 @@ import {
   Input,
   ButtonContainer,
   Button,
+  SignIn,
 } from './styledComponents';
 
 interface Props extends RouteComponentProps {}
@@ -52,8 +53,8 @@ export const ForgotPassword: React.FC<Props> = (props) => {
           />
           <ButtonContainer>
             <Button type='submit'>Request Password Reset</Button>
-            <Link to='/sign-in'>Return to Sign In</Link>
           </ButtonContainer>
+          <SignIn to='/sign-in'>Return to Sign In</SignIn>
         </Form>
       </Panel>
     </PanelWrapper>
