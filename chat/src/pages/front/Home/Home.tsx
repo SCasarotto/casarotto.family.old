@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import { useAppContext } from 'contexts';
 
@@ -19,14 +19,11 @@ export const Home: React.FC = () => {
       <Panel>
         <h1 style={{ textAlign: 'center' }}>Welcome to CasaChat</h1>
         {user?.permissions.includes('chat') ? (
-          <ActionWrapper>
-            <ActionTitle>Looks like you are already signed in.</ActionTitle>
-            <ActionLink to='/chat/chatroom'>Right this way</ActionLink>
-          </ActionWrapper>
+          <Redirect to='/chat/chatroom' />
         ) : (
           <ActionWrapper>
             <ActionTitle>You will need to sign in to continue.</ActionTitle>
-            <Link to='/sign-in'>Sign In</Link>
+            <ActionLink to='/sign-in'>Sign In</ActionLink>
           </ActionWrapper>
         )}
       </Panel>
