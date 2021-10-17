@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, getAuth } from '@firebase/auth';
-import { addDoc, collection } from '@firebase/firestore';
+import { setDoc } from '@firebase/firestore';
 import { initializeApp, deleteApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { doc, getFirestore } from 'firebase/firestore';
 import { usePopupsFunctions } from 'react-tec';
 import validate from 'validate.js';
 
@@ -84,7 +84,7 @@ export const addUser = async (data: Data) => {
       dateCreated: Date.now(),
       active: true,
     };
-    await addDoc(collection(getFirestore(), 'Users'), data);
+    await setDoc(doc(getFirestore(), 'Users', userUID), data);
     deleteApp(secondaryFirebaseApp);
     hideNetworkActivity();
     showAlert({

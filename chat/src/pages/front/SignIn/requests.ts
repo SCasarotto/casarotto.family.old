@@ -55,6 +55,7 @@ export const signInUser = async (data: Data) => {
       doc(db, 'Users', uid).withConverter(firebaseConverter<RawUser>()),
     );
     const user = userModelSnapshot.data();
+    console.log({ userModelSnapshot, user });
     if (user?.active && user.permissions?.includes('chat')) {
       hideNetworkActivity();
       history.push('/chat/chatroom');
@@ -64,7 +65,7 @@ export const signInUser = async (data: Data) => {
     hideNetworkActivity();
     showAlert({
       title: 'Error Signing In',
-      message: 'This account is missing user permissions.',
+      message: 'This account is missing chat permissions.',
     });
     return;
   } catch (e) {
