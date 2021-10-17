@@ -6,7 +6,8 @@ import { colors } from 'theme';
 
 export const Container = styled.nav`
   width: 100%;
-  padding-left: 10px;
+  padding-left: 1rem;
+  padding-right: 1rem;
   height: 60px;
   background-color: ${(props) => props.theme.white};
 
@@ -27,9 +28,6 @@ export const Content = styled.div`
   justify-content: space-between;
   align-items: center;
   position: relative;
-  padding-right: 30px;
-  padding-top: 10px;
-  padding-bottom: 10px;
   height: 100%;
 
   @media (max-width: 450px) {
@@ -44,6 +42,13 @@ export const LogoImage = styled.img`
   display: inline-block;
   height: 40px;
   margin-right: 10px;
+
+  @media (max-width: 800px) {
+    height: 35px;
+  }
+  @media (max-width: 650px) {
+    height: 30px;
+  }
 `;
 export const Title = styled.h1`
   font-size: 28px;
@@ -96,7 +101,6 @@ export const SignOutButton = styled(Button)`
   font-size: 1rem;
   background-color: transparent;
   padding-left: 0.5rem;
-  padding-right: 0.5rem;
   font-weight: 600;
   padding-bottom: 0.25rem;
 

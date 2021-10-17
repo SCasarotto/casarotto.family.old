@@ -10,6 +10,13 @@ export const ChatContainer = styled.div`
   height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 800px) {
+    height: calc(100vh - 50px);
+  }
+  @media (max-width: 650px) {
+    height: calc(100vh - 45px);
+  }
 `;
 export const ChatBody = styled.div`
   flex-grow: 1;
