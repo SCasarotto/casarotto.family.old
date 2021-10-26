@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { startOfDay } from 'date-fns';
 import {
   getFirestore,
   collection,
@@ -11,7 +12,6 @@ import {
 
 import { firebaseConverter } from 'helpers';
 import { Message, RawMessage, RawUser, User } from 'types';
-import { startOfDay } from 'date-fns';
 
 const useUsers = () => {
   const [users, setUsers] = useState<Record<string, User>>({});

@@ -1,5 +1,6 @@
 import { FormEvent, useLayoutEffect, useRef, useState } from 'react';
 
+import { format, isToday, isYesterday } from 'date-fns';
 import useStayScrolled from 'react-stay-scrolled';
 import { Spinner, usePopups } from 'react-tec';
 
@@ -26,7 +27,6 @@ import {
   DaySeparatorTextWrapper,
   DaySeparatorText,
 } from './styledComponents';
-import { format, isToday, isYesterday } from 'date-fns';
 
 // TODO:
 //  - Only Load the most recent messages
