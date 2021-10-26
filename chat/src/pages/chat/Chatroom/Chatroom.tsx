@@ -5,7 +5,7 @@ import { Spinner, usePopups } from 'react-tec';
 
 import { formatDate } from 'helpers';
 
-import { useMessages, useUsers } from './hooks';
+import { useChatDataArray } from './hooks';
 import { sendMessage } from './requests';
 import {
   ChatContainer,
@@ -21,7 +21,12 @@ import {
   ChatInputConatiner,
   ChatInput,
   ChatSendButton,
+  DaySeparatorContainer,
+  DaySeparatorLine,
+  DaySeparatorTextWrapper,
+  DaySeparatorText,
 } from './styledComponents';
+import { format, isToday, isYesterday } from 'date-fns';
 
 // TODO:
 //  - Only Load the most recent messages
@@ -32,25 +37,25 @@ import {
 
 export const Chatroom = () => {
   const popupFunctions = usePopups();
-  const { users, usersLoaded } = useUsers();
 
   const [messageCountToLoad, setMessageCountToLoad] = useState(10);
-  const { messageArray, messageArrayLoaded } = useMessages(messageCountToLoad);
+  const { chatDataArray, loaded, loadedMessageCount } =
+    useChatDataArray(messageCountToLoad);
 
   // Scroll To Bottom
   const chatBodyRef = useRef<HTMLDivElement>(null);
   const { stayScrolled, scrollBottom } = useStayScrolled(chatBodyRef);
   // Initial Scroll To Bottom
   useLayoutEffect(() => {
-    if (messageArrayLoaded) {
+    if (loaded) {
       scrollBottom();
     }
-  }, [messageArrayLoaded, scrollBottom]);
+  }, [loaded, scrollBottom]);
 
   // Keep scrolled to bottom
   useLayoutEffect(() => {
     stayScrolled();
-  }, [messageArray.length, stayScrolled]);
+  }, [loadedMessageCount, stayScrolled]);
 
   // Input Form
   const [messageText, setMessageText] = useState('');
@@ -65,36 +70,57 @@ export const Chatroom = () => {
     }
   };
 
-  const allLoaded = messageArrayLoaded && usersLoaded;
-
   return (
     <ChatContainer>
       <ChatBody ref={chatBodyRef}>
-        {allLoaded &&
-          messageArray.map((messageData) => {
-            const { uid, dateCreated, senderUid, message } = messageData;
-            const { firstName, lastName } = users[senderUid] ?? {};
-            return (
-              <MessageWrapper key={uid}>
-                <MessageSenderName>
-                  {firstName} {lastName}
-                </MessageSenderName>
-                <MessageTime>
-                  {formatDate({
-                    date: dateCreated,
-                    defaultFormat: 'datetimeShort',
-                  })}
-                </MessageTime>
-                <MessageText
-                  tagName='span'
-                  options={{ defaultProtocol: 'https' }}
-                >
-                  {message}
-                </MessageText>
-              </MessageWrapper>
-            );
+        {loaded &&
+          chatDataArray.map((chatData) => {
+            switch (chatData.type) {
+              case 'message': {
+                const { uid, dateCreated, message, senderUser } = chatData;
+                const { firstName, lastName } = senderUser ?? {};
+                return (
+                  <MessageWrapper key={uid}>
+                    <MessageSenderName>
+                      {firstName} {lastName}
+                    </MessageSenderName>
+                    <MessageTime>
+                      {formatDate({
+                        date: dateCreated,
+                        defaultFormat: 'datetimeShort',
+                      })}
+                    </MessageTime>
+                    <MessageText
+                      tagName='span'
+                      options={{ defaultProtocol: 'https' }}
+                    >
+                      {message}
+                    </MessageText>
+                  </MessageWrapper>
+                );
+              }
+              case 'daySeparator': {
+                const { timestamp } = chatData;
+                return (
+                  <DaySeparatorContainer>
+                    <DaySeparatorLine />
+                    <DaySeparatorTextWrapper>
+                      <DaySeparatorText>
+                        {isToday(timestamp)
+                          ? 'Today'
+                          : isYesterday(timestamp)
+                          ? 'Yesterday'
+                          : format(timestamp, 'iiii, LLLL do')}
+                      </DaySeparatorText>
+                    </DaySeparatorTextWrapper>
+                  </DaySeparatorContainer>
+                );
+              }
+              default:
+                return null;
+            }
           })}
-        {allLoaded && messageArray.length === messageCountToLoad && (
+        {loaded && loadedMessageCount === messageCountToLoad && (
           <LoadMoreButtonWrapper>
             <LoadMoreButton
               onClick={() => setMessageCountToLoad((c) => c + 10)}
@@ -104,7 +130,7 @@ export const Chatroom = () => {
             </LoadMoreButton>
           </LoadMoreButtonWrapper>
         )}
-        {!allLoaded && (
+        {!loaded && (
           <ChatLoadingWrapper>
             <Spinner size='large' />
             <ChatLoadingMessage>Loading...</ChatLoadingMessage>

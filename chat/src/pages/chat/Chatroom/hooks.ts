@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import {
   getFirestore,
@@ -11,8 +11,9 @@ import {
 
 import { firebaseConverter } from 'helpers';
 import { Message, RawMessage, RawUser, User } from 'types';
+import { startOfDay } from 'date-fns';
 
-export const useUsers = () => {
+const useUsers = () => {
   const [users, setUsers] = useState<Record<string, User>>({});
   const [usersLoaded, setUsersLoaded] = useState(false);
 
@@ -47,7 +48,7 @@ export const useUsers = () => {
   return { users, usersLoaded };
 };
 // This way of loading messages is a little ugly but should be a quick solution
-export const useMessages = (messagesToLoad: number) => {
+const useMessages = (messageCountToLoad: number) => {
   const [messageArray, setMessageArray] = useState<Array<Message>>([]);
   const [messageArrayLoaded, setMessageArrayLoaded] = useState(false);
 
@@ -56,7 +57,7 @@ export const useMessages = (messagesToLoad: number) => {
       query(
         collection(getFirestore(), 'Messages'),
         orderBy('dateCreated', 'desc'),
-        limit(messagesToLoad),
+        limit(messageCountToLoad),
       ).withConverter(firebaseConverter<RawMessage>()),
       (snapshot) => {
         const newMessageArray: Array<Message> = [];
@@ -77,7 +78,63 @@ export const useMessages = (messagesToLoad: number) => {
     return () => {
       unsubscribe();
     };
-  }, [messagesToLoad]);
+  }, [messageCountToLoad]);
 
   return { messageArray, messageArrayLoaded };
+};
+
+type ChatMessage = Message & {
+  type: 'message';
+  senderUser?: User;
+};
+type ChatDaySeperator = {
+  type: 'daySeparator';
+  timestamp: number;
+};
+export type ChatData = ChatMessage | ChatDaySeperator;
+export const useChatDataArray = (messageCountToLoad: number) => {
+  const { users, usersLoaded } = useUsers();
+  const { messageArray, messageArrayLoaded } = useMessages(messageCountToLoad);
+
+  const loaded = useMemo(
+    () => messageArrayLoaded && usersLoaded,
+    [messageArrayLoaded, usersLoaded],
+  );
+
+  const chatDataArray = useMemo(() => {
+    const chatMessageArray: Array<ChatMessage> = messageArray.map(
+      (message) => ({
+        ...message,
+        type: 'message',
+        senderUser: users[message.senderUid],
+      }),
+    );
+
+    const chatDataArray: Array<ChatData> = [];
+    if (chatMessageArray.length > 0) {
+      let previousStartOfDay = startOfDay(
+        chatMessageArray[0].dateCreated,
+      ).getTime();
+      chatMessageArray.forEach((message) => {
+        const thisMessagesStartOfDay = startOfDay(
+          message.dateCreated,
+        ).getTime();
+        if (previousStartOfDay > thisMessagesStartOfDay) {
+          chatDataArray.push({
+            type: 'daySeparator',
+            timestamp: previousStartOfDay,
+          });
+          previousStartOfDay = thisMessagesStartOfDay;
+        }
+        chatDataArray.push(message);
+      });
+      chatDataArray.push({
+        type: 'daySeparator',
+        timestamp: previousStartOfDay,
+      });
+    }
+    return chatDataArray;
+  }, [users, messageArray]);
+
+  return { chatDataArray, loaded, loadedMessageCount: messageArray.length };
 };
