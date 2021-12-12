@@ -14,8 +14,9 @@ import {
   CheckboxGroup,
 } from 'react-tec';
 
-import { Table } from 'components';
+import { ProfileImageRow, Table } from 'components';
 import { PermissionArray } from 'config/localData';
+import { getDownloadUrlWithReties } from 'helpers';
 import { Permission, User as UserType } from 'types';
 
 import { useUser } from './hooks';
@@ -30,27 +31,60 @@ export const User: React.FC<Props> = (props) => {
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [profileSrc, setProfileSrc] = useState<string>();
+  const [profileImage, setProfileImage] = useState<File | null>(null);
   const [permissions, setPermissions] = useState<Array<Permission>>([]);
   const [active, setActive] = useState(true);
 
   useEffect(() => {
     if (user) {
-      const { active, firstName, lastName, permissions } = user;
-      setFirstName(firstName ?? '');
-      setLastName(lastName ?? '');
-      setPermissions(permissions ?? []);
-      setActive(!!active);
+      const processUser = async () => {
+        const { active, firstName, lastName, profile, permissions } = user;
+
+        setFirstName(firstName ?? '');
+        setLastName(lastName ?? '');
+        if (profile?.large) {
+          try {
+            const url = await getDownloadUrlWithReties({
+              path: profile.large,
+              // Extra long delay because here we can upload the image and expect a processing delay
+              retries: 5,
+              delay: 1500,
+            });
+            setProfileSrc(url);
+          } catch (e) {
+            console.log(e);
+          }
+        }
+        setPermissions(permissions ?? []);
+        setActive(!!active);
+      };
+      processUser();
     }
   }, [user]);
 
-  const handleSaveButtonPressed = () => {
-    const data = {
-      firstName,
-      lastName,
-      permissions,
-      active,
-    };
-    saveUserDetails(uid, data, popupFunctions);
+  const handleSaveButtonPressed = async () => {
+    if (!user) {
+      return;
+    }
+    try {
+      await saveUserDetails({
+        uid,
+        userData: {
+          firstName,
+          lastName,
+          permissions,
+          active,
+          profileImage,
+          profileSrc,
+        },
+        prevUserData: user,
+        popupFunctions,
+      });
+      setProfileImage(null);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const columns: Array<Column<UserType>> = useMemo(
@@ -116,6 +150,16 @@ export const User: React.FC<Props> = (props) => {
             required
             rowSize='half'
             last
+          />
+          <ProfileImageRow
+            src={profileSrc}
+            file={profileImage}
+            onChange={(file) => {
+              setProfileImage(file ?? null);
+              if (!file) {
+                setProfileSrc(undefined);
+              }
+            }}
           />
           <CheckboxGroup
             labelForKey='permissions'

@@ -3,9 +3,7 @@ import { Button, FormRow as FR } from 'react-tec';
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-bottom: 15px;
+  padding: 30px;
 `;
 export const Row = styled(FR)`
   text-align: center;

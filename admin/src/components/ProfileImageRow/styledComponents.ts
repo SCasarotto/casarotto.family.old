@@ -1,6 +1,6 @@
-import styled from 'styled-components';
 import { FaUpload, FaRegWindowClose } from 'react-icons/fa';
 import { Button } from 'react-tec';
+import styled from 'styled-components';
 
 export const ImageWrapperLabel = styled.label`
   display: inline-block;

@@ -1,7 +1,7 @@
-import React, { useState, useRef, FormEvent } from 'react';
+import React, { useState, useRef } from 'react';
 
 import AvatarEditor, { AvatarEditorProps } from 'react-avatar-editor';
-import { Popup, PopupProps, Label, Button } from 'react-tec';
+import { Popup, PopupProps, Label } from 'react-tec';
 
 import {
   Container,

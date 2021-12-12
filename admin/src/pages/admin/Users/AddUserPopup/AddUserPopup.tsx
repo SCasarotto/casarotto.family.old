@@ -1,12 +1,6 @@
 import { useState } from 'react';
 
-import {
-  PopupForm,
-  InputRow,
-  usePopups,
-  CheckboxGroup,
-  ImageRow,
-} from 'react-tec';
+import { PopupForm, InputRow, usePopups, CheckboxGroup } from 'react-tec';
 
 import { PopupTitle, ProfileImageRow } from 'components';
 import { PermissionArray } from 'config/localData';
@@ -39,12 +33,12 @@ export const AddUserPopup: React.FC<Props> = (props) => {
         email,
         profileImage,
         permissions,
-        popupFunctions,
       };
-      await addUser(data);
+      await addUser({ userData: data, popupFunctions });
       setFirstName('');
       setLastName('');
       setEmail('');
+      setProfileImage(undefined);
       setProfileImageKey((k) => k + 1);
       setPermissions([]);
       onSubmit();

@@ -14,7 +14,7 @@ import {
 
 export type ProfileImageRowProps = {
   src?: string;
-  file?: File;
+  file?: File | null;
   onChange: (file?: File) => void;
   filePattern?: RegExp;
   className?: string;
@@ -25,20 +25,17 @@ export const ProfileImageRow: React.FC<ProfileImageRowProps> = (props) => {
   const [fileToEdit, setFileToEdit] = useState<File>();
   const [inputKey, setInputeKey] = useState(0);
 
-  const onFileChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const { files } = e.target;
+  const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
 
-      const file = files?.[0];
-      if (!file) {
-        console.error('No file provided to input.');
-        return;
-      }
+    const file = files?.[0];
+    if (!file) {
+      console.error('No file provided to input.');
+      return;
+    }
 
-      setFileToEdit(file);
-    },
-    [filePattern],
-  );
+    setFileToEdit(file);
+  }, []);
 
   return (
     <FormRow className={`ProfileImageRow ${className}`}>
@@ -82,7 +79,7 @@ export const ProfileImageRow: React.FC<ProfileImageRowProps> = (props) => {
               editor.getImage().toBlob((blob) => {
                 if (blob) {
                   onChange(
-                    new File([blob], 'profile_image', {
+                    new File([blob], 'profile_image.jpg', {
                       lastModified: Date.now(),
                     }),
                   );
