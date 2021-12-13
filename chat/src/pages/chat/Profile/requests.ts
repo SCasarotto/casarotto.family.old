@@ -7,7 +7,13 @@ import { User } from 'types';
 
 type UpdateUser = Omit<
   User,
-  'uid' | 'email' | 'dateCreated' | 'profile' | 'profileDateUpdated'
+  | 'uid'
+  | 'email'
+  | 'dateCreated'
+  | 'profile'
+  | 'profileDateUpdated'
+  | 'active'
+  | 'permissions'
 > & {
   profileSrc?: string;
   profileImage?: File | null;
@@ -20,8 +26,7 @@ type SaveUserData = {
 };
 export const saveUserDetails = async (data: SaveUserData) => {
   const { uid, userData, prevUserData, popupFunctions } = data;
-  const { active, firstName, lastName, permissions, profileImage, profileSrc } =
-    userData;
+  const { firstName, lastName, profileImage, profileSrc } = userData;
   const { showNetworkActivity, hideNetworkActivity, showAlert } =
     popupFunctions;
 
@@ -33,11 +38,6 @@ export const saveUserDetails = async (data: SaveUserData) => {
       },
     },
     lastName: {
-      presence: {
-        allowEmpty: false,
-      },
-    },
-    active: {
       presence: {
         allowEmpty: false,
       },
@@ -57,10 +57,8 @@ export const saveUserDetails = async (data: SaveUserData) => {
   try {
     showNetworkActivity('Saving User Details...');
     const dataToSave: Partial<User> = {
-      active,
       firstName,
       lastName,
-      permissions,
       profile: prevUserData.profile ?? null,
       profileDateUpdated: prevUserData.profileDateUpdated ?? null,
     };

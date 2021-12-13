@@ -1,23 +1,27 @@
-import { createUserWithEmailAndPassword, getAuth } from '@firebase/auth';
-import { setDoc } from '@firebase/firestore';
 import { initializeApp, deleteApp } from 'firebase/app';
-import { doc, getFirestore } from 'firebase/firestore';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { setDoc, doc, getFirestore } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { usePopupsFunctions } from 'react-tec';
 import validate from 'validate.js';
 
 import { settings } from 'config/settings';
 import { generateRandomCode } from 'helpers';
-import { Permission, RawUser } from 'types';
+import { RawUser, User, UserProfile } from 'types';
 
-interface Data {
-  firstName: string;
-  lastName: string;
-  email: string;
-  permissions: Array<Permission>;
+type CreateUser = Omit<
+  User,
+  'uid' | 'dateCreated' | 'active' | 'profile' | 'profileDateUpdated'
+> & {
+  profileImage?: File;
+};
+type AddUserData = {
+  userData: CreateUser;
   popupFunctions: usePopupsFunctions;
-}
-export const addUser = async (data: Data) => {
-  const { firstName, lastName, email, permissions, popupFunctions } = data;
+};
+export const addUser = async (data: AddUserData) => {
+  const { userData, popupFunctions } = data;
+  const { profileImage, firstName, lastName, email, permissions } = userData;
   const { showNetworkActivity, hideNetworkActivity, showAlert } =
     popupFunctions;
 
@@ -39,7 +43,7 @@ export const addUser = async (data: Data) => {
       },
     },
   };
-  const validationResponse = validate(data, validatorConstraints);
+  const validationResponse = validate(userData, validatorConstraints);
   if (validationResponse) {
     const valuesArray: Array<Array<any>> = Object.values(validationResponse);
     const firstError: Array<any> = valuesArray[0];
@@ -76,11 +80,30 @@ export const addUser = async (data: Data) => {
     if (!userUID) {
       throw new Error('No UID Found or Created');
     }
+
+    let profileData: UserProfile | undefined;
+    if (profileImage) {
+      const storage = getStorage();
+      const filePath = `profile/${userUID}.jpeg`;
+      const profileFolderRef = ref(storage, filePath);
+      await uploadBytes(profileFolderRef, profileImage, {
+        contentType: 'image/jpeg',
+      });
+      const small = `profile/${userUID}_100x100.jpeg`;
+      const large = `profile/${userUID}_400x400.jpeg`;
+      profileData = {
+        small,
+        large,
+      };
+    }
+
     const data: RawUser = {
       firstName,
       lastName,
       email,
       permissions,
+      profile: profileData ?? null,
+      profileDateUpdated: profileData ? Date.now() : null,
       dateCreated: Date.now(),
       active: true,
     };

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { PopupForm, InputRow, usePopups, CheckboxGroup } from 'react-tec';
 
-import { PopupTitle } from 'components';
+import { PopupTitle, ProfileImageRow } from 'components';
 import { PermissionArray } from 'config/localData';
 import { Permission } from 'types';
 
@@ -20,6 +20,8 @@ export const AddUserPopup: React.FC<Props> = (props) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [profileImage, setProfileImage] = useState<File>();
+  const [profileImageKey, setProfileImageKey] = useState(0);
   const [permissions, setPermissions] = useState<Array<Permission>>([]);
 
   const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,13 +31,15 @@ export const AddUserPopup: React.FC<Props> = (props) => {
         firstName,
         lastName,
         email,
+        profileImage,
         permissions,
-        popupFunctions,
       };
-      await addUser(data);
+      await addUser({ userData: data, popupFunctions });
       setFirstName('');
       setLastName('');
       setEmail('');
+      setProfileImage(undefined);
+      setProfileImageKey((k) => k + 1);
       setPermissions([]);
       onSubmit();
     } catch (e) {
@@ -68,8 +72,14 @@ export const AddUserPopup: React.FC<Props> = (props) => {
         onChange={(e) => setEmail(e.target.value)}
         required
       />
+      <ProfileImageRow
+        key={profileImageKey}
+        file={profileImage}
+        onChange={(file) => setProfileImage(file)}
+      />
       <CheckboxGroup
         labelForKey='permissions'
+        title='Permissions'
         checkedValues={permissions}
         onChange={(permissionArray: Array<Permission>) =>
           setPermissions(permissionArray)

@@ -36,7 +36,7 @@ export const Navbar: React.FC<Props> = (props) => {
         </LeftWrapper>
         <RightWrapper>
           <NavLink to='/chat/chatroom'>Chatroom</NavLink>
-          {/* <NavLink to='/chat/settings'>Settings</NavLink> */}
+          <NavLink to='/chat/Profile'>Profile</NavLink>
           <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
         </RightWrapper>
       </Content>

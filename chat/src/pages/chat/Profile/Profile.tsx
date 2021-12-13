@@ -1,7 +1,5 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
-import { RouteComponentProps } from 'react-router';
-import { Column } from 'react-table';
 import {
   ErrorLoadingAlert,
   PanelWrapper,
@@ -9,37 +7,28 @@ import {
   Form,
   InputRow,
   Button,
-  SegmentedGroup,
   usePopups,
-  CheckboxGroup,
 } from 'react-tec';
 
-import { ProfileImageRow, Table } from 'components';
-import { PermissionArray } from 'config/localData';
+import { ProfileImageRow } from 'components';
+import { useAppContext } from 'contexts';
 import { getDownloadUrlWithReties } from 'helpers';
-import { Permission, User as UserType } from 'types';
 
-import { useUser } from './hooks';
 import { saveUserDetails } from './requests';
 
-interface Props extends RouteComponentProps<{ uid: string }> {}
-export const User: React.FC<Props> = (props) => {
-  const { uid } = props.match.params;
-
+export const Profile: React.FC = () => {
   const popupFunctions = usePopups();
-  const { user, userLoaded } = useUser(uid);
+  const { user, userLoaded } = useAppContext();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [profileSrc, setProfileSrc] = useState<string>();
   const [profileImage, setProfileImage] = useState<File | null>(null);
-  const [permissions, setPermissions] = useState<Array<Permission>>([]);
-  const [active, setActive] = useState(true);
 
   useEffect(() => {
     if (user) {
       const processUser = async () => {
-        const { active, firstName, lastName, profile, permissions } = user;
+        const { firstName, lastName, profile } = user;
 
         setFirstName(firstName ?? '');
         setLastName(lastName ?? '');
@@ -56,8 +45,6 @@ export const User: React.FC<Props> = (props) => {
             console.log(e);
           }
         }
-        setPermissions(permissions ?? []);
-        setActive(!!active);
       };
       processUser();
     }
@@ -69,12 +56,10 @@ export const User: React.FC<Props> = (props) => {
     }
     try {
       await saveUserDetails({
-        uid,
+        uid: user.uid,
         userData: {
           firstName,
           lastName,
-          permissions,
-          active,
           profileImage,
           profileSrc,
         },
@@ -87,32 +72,12 @@ export const User: React.FC<Props> = (props) => {
     }
   };
 
-  const columns: Array<Column<UserType>> = useMemo(
-    () => [
-      { id: 'uid', Header: 'UID', accessor: 'uid' },
-      { id: 'firstName', Header: 'First Name', accessor: 'firstName' },
-      { id: 'lastName', Header: 'Last Name', accessor: 'lastName' },
-      { id: 'email', Header: 'Email', accessor: 'email' },
-      {
-        id: 'permissions',
-        Header: 'Permissions',
-        accessor: (u) => u.permissions.join(', '),
-      },
-      {
-        id: 'active',
-        Header: 'Active',
-        accessor: (u) => (u.active ? 'Yes' : 'No'),
-      },
-    ],
-    [],
-  );
-
   if (!user) {
     if (userLoaded) {
       return (
         <ErrorLoadingAlert
-          title='Error Loading User'
-          message='There was an error loading this user.'
+          title='Error Loading Profile'
+          message='There was an error loading this profile.'
         />
       );
     }
@@ -121,18 +86,7 @@ export const User: React.FC<Props> = (props) => {
 
   return (
     <PanelWrapper>
-      <Panel title='User'>
-        <Table<UserType>
-          useTableOptions={{
-            data: [user],
-            columns,
-          }}
-          sortable={false}
-          filterable={false}
-          showPagination={false}
-        />
-      </Panel>
-      <Panel title='Edit'>
+      <Panel title='Edit Profile'>
         <Form>
           <InputRow
             labelForKey='firstName'
@@ -160,21 +114,6 @@ export const User: React.FC<Props> = (props) => {
                 setProfileSrc(undefined);
               }
             }}
-          />
-          <CheckboxGroup
-            labelForKey='permissions'
-            title='Permissions'
-            buttonArray={PermissionArray}
-            checkedValues={permissions}
-            onChange={(perms) => setPermissions(perms as Array<Permission>)}
-          />
-          <SegmentedGroup
-            labelForKey='active'
-            title='Active'
-            buttonArray={['Yes', 'No']}
-            checkedValue={active ? 'Yes' : 'No'}
-            onChange={(e) => setActive(e.target.value === 'Yes')}
-            required
           />
           <Button onClick={handleSaveButtonPressed}>Save Details</Button>
         </Form>
