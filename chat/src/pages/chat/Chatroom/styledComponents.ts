@@ -62,6 +62,15 @@ export const MessageWrapper = styled.div`
   padding: 0.5rem;
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: row;
+`;
+export const MessageProfile = styled.img`
+  display: block;
+  margin-right: 0.5rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.4rem;
 `;
 export const MessageSenderName = styled.span`
   font-weight: 600;
@@ -81,6 +90,7 @@ export const MessageText = styled(Linkify)`
   line-height: 1.25;
   white-space: pre-wrap;
 `;
+
 export const ChatLoadingWrapper = styled.div`
   display: flex;
   flex-direction: column;

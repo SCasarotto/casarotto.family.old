@@ -1,11 +1,10 @@
 import { FormEvent, useLayoutEffect, useRef, useState } from 'react';
 
-import { format, isToday, isYesterday } from 'date-fns';
 import useStayScrolled from 'react-stay-scrolled';
 import { Spinner, usePopups } from 'react-tec';
 
-import { formatDate } from 'helpers';
-
+import { ChatroomDaySeparator } from './ChatroomDaySeparator';
+import { ChatroomMessage } from './ChatroomMessage';
 import { useChatDataArray } from './hooks';
 import { sendMessage } from './requests';
 import {
@@ -13,19 +12,11 @@ import {
   ChatBody,
   LoadMoreButtonWrapper,
   LoadMoreButton,
-  MessageWrapper,
-  MessageSenderName,
-  MessageTime,
-  MessageText,
   ChatLoadingWrapper,
   ChatLoadingMessage,
   ChatInputConatiner,
   ChatInput,
   ChatSendButton,
-  DaySeparatorContainer,
-  DaySeparatorLine,
-  DaySeparatorTextWrapper,
-  DaySeparatorText,
 } from './styledComponents';
 
 // TODO:
@@ -77,43 +68,13 @@ export const Chatroom = () => {
           chatDataArray.map((chatData) => {
             switch (chatData.type) {
               case 'message': {
-                const { uid, dateCreated, message, senderUser } = chatData;
-                const { firstName, lastName } = senderUser ?? {};
-                return (
-                  <MessageWrapper key={uid}>
-                    <MessageSenderName>
-                      {firstName} {lastName}
-                    </MessageSenderName>
-                    <MessageTime>
-                      {formatDate({
-                        date: dateCreated,
-                        defaultFormat: 'datetimeShort',
-                      })}
-                    </MessageTime>
-                    <MessageText
-                      tagName='span'
-                      options={{ defaultProtocol: 'https' }}
-                    >
-                      {message}
-                    </MessageText>
-                  </MessageWrapper>
-                );
+                const { type, ...rest } = chatData;
+                return <ChatroomMessage {...rest} key={chatData.uid} />;
               }
               case 'daySeparator': {
                 const { timestamp } = chatData;
                 return (
-                  <DaySeparatorContainer>
-                    <DaySeparatorLine />
-                    <DaySeparatorTextWrapper>
-                      <DaySeparatorText>
-                        {isToday(timestamp)
-                          ? 'Today'
-                          : isYesterday(timestamp)
-                          ? 'Yesterday'
-                          : format(timestamp, 'iiii, LLLL do')}
-                      </DaySeparatorText>
-                    </DaySeparatorTextWrapper>
-                  </DaySeparatorContainer>
+                  <ChatroomDaySeparator timestamp={timestamp} key={timestamp} />
                 );
               }
               default:

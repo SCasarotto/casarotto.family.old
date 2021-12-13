@@ -8,6 +8,7 @@ import { useAppContext } from 'contexts';
 import { Navbar } from 'layout/chat/Navbar';
 import { Chatroom } from 'pages/chat/Chatroom';
 import { NotFound } from 'pages/chat/NotFound';
+import { Profile } from 'pages/chat/Profile';
 
 import { Wrapper } from './styledComponents';
 
@@ -46,6 +47,11 @@ export const ContentWrapper: React.FC<Props> = (props) => {
             path='/chat/chatroom'
             authChecks={authChecks}
             component={Chatroom}
+          />
+          <PrivateRoute
+            path='/chat/profile'
+            authChecks={authChecks}
+            component={Profile}
           />
 
           <Route component={NotFound} />
