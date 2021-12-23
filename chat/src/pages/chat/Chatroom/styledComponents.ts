@@ -58,6 +58,7 @@ export const LoadMoreButton = styled.button`
 // Chat Message
 //
 export const MessageWrapper = styled.div`
+  position: relative;
   background-color: ${colors.lighterGray};
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -89,6 +90,31 @@ export const MessageText = styled(Linkify)`
   font-size: 1rem;
   line-height: 1.25;
   white-space: pre-wrap;
+`;
+export const MessageSpeakButton = styled.button`
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  padding: 10px;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  color: ${colors.darkerGray};
+
+  transition: color 0.2s ease-in;
+
+  :hover,
+  :active {
+    color: ${colors.darkGray};
+  }
+
+  svg {
+    display: block;
+  }
 `;
 
 export const ChatLoadingWrapper = styled.div`

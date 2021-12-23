@@ -1,8 +1,9 @@
+import { FaVolumeUp } from 'react-icons/fa';
+
 import defaultProfile from 'assets/images/defaultProfile.jpg';
-import { formatDate } from 'helpers';
+import { formatDate, textToSpeech } from 'helpers';
 import { useDownloadUrlWithRetries } from 'hooks';
 import { Message, User } from 'types';
-
 
 import {
   MessageWrapper,
@@ -10,6 +11,7 @@ import {
   MessageSenderName,
   MessageTime,
   MessageText,
+  MessageSpeakButton,
 } from './styledComponents';
 
 type Props = Message & { senderUser?: User };
@@ -36,6 +38,9 @@ export const ChatroomMessage = (props: Props) => {
           {message}
         </MessageText>
       </div>
+      <MessageSpeakButton onClick={() => textToSpeech(message)}>
+        <FaVolumeUp />
+      </MessageSpeakButton>
     </MessageWrapper>
   );
 };
