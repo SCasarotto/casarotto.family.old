@@ -7,9 +7,9 @@ export const ChatContainer = styled.div`
   max-width: 100ch;
   margin-left: auto;
   margin-right: auto;
-  height: calc(100vh - 60px);
-  display: flex;
-  flex-direction: column;
+  max-height: calc(100vh - 60px);
+  /* display: flex; */
+  /* flex-direction: column; */
 
   @media (max-width: 800px) {
     height: calc(100vh - 50px);
@@ -23,8 +23,7 @@ export const ChatBody = styled.div`
   overflow-y: auto;
   padding-left: 1rem;
   padding-right: 1rem;
-  display: flex;
-  flex-direction: column-reverse;
+  max-height: calc(100vh - 134px);
 `;
 
 //
@@ -72,6 +71,7 @@ export const MessageProfile = styled.img`
   width: 3rem;
   height: 3rem;
   border-radius: 0.4rem;
+  flex-shrink: 0;
 `;
 export const MessageSenderName = styled.span`
   font-weight: 600;
