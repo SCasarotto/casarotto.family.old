@@ -90,6 +90,7 @@ export const MessageText = styled(Linkify)`
   font-size: 1rem;
   line-height: 1.25;
   white-space: pre-wrap;
+  word-break: break-word;
 `;
 export const MessageSpeakButton = styled.button`
   position: absolute;
