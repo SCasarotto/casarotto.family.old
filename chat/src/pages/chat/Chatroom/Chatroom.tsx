@@ -64,6 +64,22 @@ export const Chatroom = () => {
   return (
     <ChatContainer>
       <ChatBody ref={chatBodyRef}>
+        {loaded && loadedMessageCount === messageCountToLoad && (
+          <LoadMoreButtonWrapper>
+            <LoadMoreButton
+              onClick={() => setMessageCountToLoad((c) => c + 10)}
+              type='button'
+            >
+              Load More
+            </LoadMoreButton>
+          </LoadMoreButtonWrapper>
+        )}
+        {!loaded && (
+          <ChatLoadingWrapper>
+            <Spinner size='large' />
+            <ChatLoadingMessage>Loading...</ChatLoadingMessage>
+          </ChatLoadingWrapper>
+        )}
         {loaded &&
           chatDataArray.map((chatData) => {
             switch (chatData.type) {
@@ -81,22 +97,6 @@ export const Chatroom = () => {
                 return null;
             }
           })}
-        {loaded && loadedMessageCount === messageCountToLoad && (
-          <LoadMoreButtonWrapper>
-            <LoadMoreButton
-              onClick={() => setMessageCountToLoad((c) => c + 10)}
-              type='button'
-            >
-              Load More
-            </LoadMoreButton>
-          </LoadMoreButtonWrapper>
-        )}
-        {!loaded && (
-          <ChatLoadingWrapper>
-            <Spinner size='large' />
-            <ChatLoadingMessage>Loading...</ChatLoadingMessage>
-          </ChatLoadingWrapper>
-        )}
       </ChatBody>
       <ChatInputConatiner onSubmit={handleSendMessage}>
         <ChatInput

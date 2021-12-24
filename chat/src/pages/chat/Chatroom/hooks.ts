@@ -133,7 +133,7 @@ export const useChatDataArray = (messageCountToLoad: number) => {
         timestamp: previousStartOfDay,
       });
     }
-    return chatDataArray;
+    return chatDataArray.reverse();
   }, [users, messageArray]);
 
   return { chatDataArray, loaded, loadedMessageCount: messageArray.length };
