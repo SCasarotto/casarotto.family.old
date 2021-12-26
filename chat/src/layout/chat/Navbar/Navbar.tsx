@@ -1,7 +1,9 @@
 import React, { useCallback, useState } from 'react';
 
 import { getAuth } from 'firebase/auth';
+import { FaComments, FaUser } from 'react-icons/fa';
 import { RouteChildrenProps } from 'react-router';
+import { Alert } from 'react-tec';
 
 import logo from 'assets/images/logo.png';
 
@@ -18,8 +20,6 @@ import {
   NavButtonIcon,
   NavAlertContent,
 } from './styledComponents';
-import { Alert } from 'react-tec';
-import { FaComments, FaUser } from 'react-icons/fa';
 
 const links = [
   {
@@ -44,7 +44,7 @@ export const Navbar: React.FC<Props> = (props) => {
   const handleSignOut = useCallback(() => {
     getAuth().signOut();
     history.push('/');
-  }, []);
+  }, [history]);
 
   return (
     <Container>
