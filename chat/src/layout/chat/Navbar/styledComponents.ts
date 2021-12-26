@@ -88,10 +88,15 @@ export const NavLink = styled(NL)`
     color: ${colors.primary};
     border-bottom-color: ${colors.primary};
   }
-  :active,
-  :hover {
+  :active {
     color: ${colors.primary};
     border-bottom-color: ${colors.primary};
+  }
+  @media (hover: hover) and (pointer: fine) {
+    :hover {
+      color: ${colors.primary};
+      border-bottom-color: ${colors.primary};
+    }
   }
 `;
 export const SignOutButton = styled(Button)`
@@ -104,11 +109,17 @@ export const SignOutButton = styled(Button)`
   font-weight: 600;
   padding-bottom: 0.25rem;
 
-  :active,
-  :hover {
+  :active {
     border: none;
     color: ${(props) => props.theme.primary};
     background: transparent;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    :hover {
+      border: none;
+      color: ${(props) => props.theme.primary};
+      background: transparent;
+    }
   }
 
   @media (max-width: 800px) {

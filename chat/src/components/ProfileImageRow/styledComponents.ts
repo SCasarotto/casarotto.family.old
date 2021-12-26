@@ -13,11 +13,16 @@ export const ImageWrapperLabel = styled.label`
   position: relative;
   box-shadow: none;
 
-  :hover,
   :focus,
   :active {
     border: 1px solid ${(props) => props.theme.primary};
     box-shadow: 0 0 0 1px ${(props) => props.theme.primary} inset;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    :hover {
+      border: 1px solid ${(props) => props.theme.primary};
+      box-shadow: 0 0 0 1px ${(props) => props.theme.primary} inset;
+    }
   }
 `;
 export const Image = styled.img`

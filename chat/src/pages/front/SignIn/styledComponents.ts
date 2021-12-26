@@ -75,10 +75,15 @@ export const Input = styled(InputRow)`
     border: none;
     padding: 10px;
 
-    :active,
-    :hover {
+    :active {
       border: none;
       box-shadow: none;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      :hover {
+        border: none;
+        box-shadow: none;
+      }
     }
   }
 
@@ -110,9 +115,14 @@ export const Button = styled(TecButton)`
   border: 1px solid ${(props) => props.theme.white};
   font-size: 1.25rem;
 
-  :active,
-  :hover {
+  :active {
     border: 1px solid ${(props) => props.theme.white};
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    :hover {
+      border: 1px solid ${(props) => props.theme.white};
+    }
   }
 
   @media (max-width: 800px) {
