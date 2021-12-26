@@ -43,14 +43,23 @@ export const LeftButton = styled(Button)`
   padding-bottom: 15px;
   font-size: 18px;
 
-  :active,
-  :hover {
+  :active {
     color: ${(props) => props.theme.white};
     background-color: ${(props) => props.theme.primary};
     border-top: 1px solid ${(props) => props.theme.primary};
     border-right: 1px solid ${(props) => props.theme.primary};
     border-bottom: none;
     border-left: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    :hover {
+      color: ${(props) => props.theme.white};
+      background-color: ${(props) => props.theme.primary};
+      border-top: 1px solid ${(props) => props.theme.primary};
+      border-right: 1px solid ${(props) => props.theme.primary};
+      border-bottom: none;
+      border-left: none;
+    }
   }
 `;
 export const RightButton = styled(Button)`
@@ -66,13 +75,22 @@ export const RightButton = styled(Button)`
   padding-bottom: 15px;
   font-size: 18px;
 
-  :active,
-  :hover {
+  :active {
     color: ${(props) => props.theme.white};
     background-color: ${(props) => props.theme.primary};
     border-top: 1px solid ${(props) => props.theme.primary};
     border-right: none;
     border-bottom: none;
     border-left: 1px solid ${(props) => props.theme.primary};
+  }
+  @media (hover: hover) and (pointer: fine) {
+    :hover {
+      color: ${(props) => props.theme.white};
+      background-color: ${(props) => props.theme.primary};
+      border-top: 1px solid ${(props) => props.theme.primary};
+      border-right: none;
+      border-bottom: none;
+      border-left: 1px solid ${(props) => props.theme.primary};
+    }
   }
 `;

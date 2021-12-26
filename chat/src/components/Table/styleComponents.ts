@@ -61,8 +61,10 @@ export const TableWrapper = styled.div`
           cursor: pointer;
           transition: 0.1s background-color ease-in;
 
-          &:hover {
-            background-color: #f1f1f1;
+          @media (hover: hover) and (pointer: fine) {
+            &:hover {
+              background-color: #f1f1f1;
+            }
           }
         }
         &:last-child {
@@ -113,8 +115,10 @@ export const TableWrapper = styled.div`
       &:last-child {
         margin-right: 0px;
       }
-      &:hover {
-        background-color: ${colors.gray};
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background-color: ${colors.gray};
+        }
       }
       &:disabled {
         background-color: ${colors.lighterGray};

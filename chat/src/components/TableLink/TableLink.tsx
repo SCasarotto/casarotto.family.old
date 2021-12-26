@@ -28,9 +28,12 @@ const Link = styled(L)`
     color: ${(props) => props.theme.white};
     background-color: ${(props) => props.theme.primary};
   }
-  :hover {
-    color: ${(props) => props.theme.white};
-    background-color: ${(props) => props.theme.primary};
+
+  @media (hover: hover) and (pointer: fine) {
+    :hover {
+      color: ${(props) => props.theme.white};
+      background-color: ${(props) => props.theme.primary};
+    }
   }
 `;
 

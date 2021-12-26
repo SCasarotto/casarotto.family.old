@@ -108,9 +108,13 @@ export const MessageSpeakButton = styled.button`
 
   transition: color 0.2s ease-in;
 
-  :hover,
   :active {
     color: ${colors.darkGray};
+  }
+  @media (hover: hover) and (pointer: fine) {
+    :hover {
+      color: ${colors.darkGray};
+    }
   }
 
   svg {

@@ -2,6 +2,7 @@ import { NavLink as NL } from 'react-router-dom';
 import { Button } from 'react-tec';
 import styled from 'styled-components';
 
+import { NavIcon } from 'assets/SVGs/NavIcon';
 import { colors } from 'theme';
 
 export const Container = styled.nav`
@@ -29,10 +30,6 @@ export const Content = styled.div`
   align-items: center;
   position: relative;
   height: 100%;
-
-  @media (max-width: 450px) {
-    padding-right: 20px;
-  }
 `;
 export const LeftWrapper = styled.div`
   display: flex;
@@ -66,55 +63,66 @@ export const Title = styled.h1`
     font-size: 20px;
   }
 `;
-export const RightWrapper = styled.div`
+export const RightWrapper = styled.div``;
+export const NavButton = styled(Button)`
+  padding: 8px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  margin-right: 10px;
+  background-color: transparent;
+`;
+export const NavButtonIcon = styled(NavIcon)`
+  width: 24px;
+  height: auto;
+  fill: currentColor;
+  display: block;
+`;
+export const NavAlertContent = styled.div`
+  padding: 30px;
 `;
 export const NavLink = styled(NL)`
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-bottom: 0.25rem;
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
-  display: inline-block;
-  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding: 0.3rem;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
   font-weight: 600;
   text-decoration: none;
   color: ${colors.darkerGray};
-  border-bottom: 4px solid transparent;
-  transition: color 0.2s ease-in, border-color 0.2s ease-in;
+  background-color: 'transparent';
+  border: 1px solid ${colors.lightGray};
+  transition: color 0.2s ease-in, background-color 0.2s ease-in,
+    border-color 0.2s ease-in;
+  text-align: center;
 
   &.active {
-    color: ${colors.primary};
-    border-bottom-color: ${colors.primary};
+    color: ${colors.white};
+    background-color: ${colors.primary};
+    border-color: ${colors.primary};
   }
-  :active,
-  :hover {
-    color: ${colors.primary};
-    border-bottom-color: ${colors.primary};
+  :active {
+    color: ${colors.white};
+    background-color: ${colors.primary};
+    border-color: ${colors.primary};
+  }
+  @media (hover: hover) and (pointer: fine) {
+    :hover {
+      color: ${colors.white};
+      background-color: ${colors.primary};
+      border-color: ${colors.primary};
+    }
+  }
+
+  svg {
+    display: block;
+    margin-right: 0.5rem;
+    font-size: 1.3rem;
   }
 `;
 export const SignOutButton = styled(Button)`
-  border: none;
-  width: auto;
-  padding: 0px;
-  font-size: 1rem;
-  background-color: transparent;
-  padding-left: 0.5rem;
-  font-weight: 600;
-  padding-bottom: 0.25rem;
-
-  :active,
-  :hover {
-    border: none;
-    color: ${(props) => props.theme.primary};
-    background: transparent;
-  }
-
-  @media (max-width: 800px) {
-    font-size: 15px;
-  }
-  @media (max-width: 650px) {
-    font-size: 14px;
-  }
+  margin-top: 30px;
 `;
