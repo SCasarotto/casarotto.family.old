@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
 import { getAuth } from 'firebase/auth';
-import { FaComments, FaUser } from 'react-icons/fa';
+import { FaComments, FaUser, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import { RouteChildrenProps } from 'react-router';
 import { Alert } from 'react-tec';
 
@@ -31,6 +31,11 @@ const links = [
     to: '/chat/profile',
     Icon: FaUser,
     label: 'Profile',
+  },
+  {
+    to: '/chat/settings',
+    Icon: FaCog,
+    label: 'Settings',
   },
 ];
 
@@ -73,7 +78,9 @@ export const Navbar: React.FC<Props> = (props) => {
               </NavLink>
             );
           })}
-          <SignOutButton onClick={handleSignOut}>Sign Out</SignOutButton>
+          <SignOutButton onClick={handleSignOut}>
+            <FaSignOutAlt /> Sign Out
+          </SignOutButton>
         </NavAlertContent>
       </Alert>
     </Container>

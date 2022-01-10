@@ -1,11 +1,21 @@
-import { FormEvent, useLayoutEffect, useRef, useState } from 'react';
+import {
+  FormEvent,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import useStayScrolled from 'react-stay-scrolled';
 import { Spinner, usePopups } from 'react-tec';
 
+import { getMessageSoundUrl } from 'assets/sounds';
+import { useAppContext } from 'contexts';
+
 import { ChatroomDaySeparator } from './ChatroomDaySeparator';
 import { ChatroomMessage } from './ChatroomMessage';
-import { useChatDataArray } from './hooks';
+import { useChatDataArray, useNewMessageSound } from './hooks';
 import { sendMessage } from './requests';
 import {
   ChatContainer,
@@ -28,10 +38,12 @@ import {
 
 export const Chatroom = () => {
   const popupFunctions = usePopups();
+  const { user } = useAppContext();
 
   const [messageCountToLoad, setMessageCountToLoad] = useState(10);
-  const { chatDataArray, loaded, loadedMessageCount } =
+  const { chatDataArray, loaded, messageArray } =
     useChatDataArray(messageCountToLoad);
+  const loadedMessageCount = messageArray.length;
 
   // Scroll To Bottom
   const chatBodyRef = useRef<HTMLDivElement>(null);
@@ -48,18 +60,33 @@ export const Chatroom = () => {
     stayScrolled();
   }, [loadedMessageCount, stayScrolled]);
 
+  // Get Latest Message assuming its sorted new to old
+  const latestMessage = useMemo(
+    () => messageArray?.[0] ?? null,
+    [messageArray],
+  );
+  // Play Audio on New Message
+  useNewMessageSound({
+    latestMessage,
+    soundUrl: getMessageSoundUrl(user?.chatSettings?.messageSound),
+    disabled: user?.chatSettings?.messageSound === 'None',
+  });
+
   // Input Form
   const [messageText, setMessageText] = useState('');
 
-  const handleSendMessage = async (e: FormEvent) => {
-    e.preventDefault();
-    try {
-      await sendMessage({ message: messageText.trim(), popupFunctions });
-      setMessageText('');
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  const handleSendMessage = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
+      try {
+        await sendMessage({ message: messageText.trim(), popupFunctions });
+        setMessageText('');
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    [messageText, popupFunctions],
+  );
 
   return (
     <ChatContainer>

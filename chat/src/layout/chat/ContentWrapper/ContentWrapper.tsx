@@ -9,6 +9,7 @@ import { Navbar } from 'layout/chat/Navbar';
 import { Chatroom } from 'pages/chat/Chatroom';
 import { NotFound } from 'pages/chat/NotFound';
 import { Profile } from 'pages/chat/Profile';
+import { Settings } from 'pages/chat/Settings';
 
 import { Wrapper } from './styledComponents';
 
@@ -52,6 +53,11 @@ export const ContentWrapper: React.FC<Props> = (props) => {
             path='/chat/profile'
             authChecks={authChecks}
             component={Profile}
+          />
+          <PrivateRoute
+            path='/chat/settings'
+            authChecks={authChecks}
+            component={Settings}
           />
 
           <Route component={NotFound} />
