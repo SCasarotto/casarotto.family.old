@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { startOfDay } from 'date-fns';
 import {
@@ -10,6 +10,7 @@ import {
   limit,
 } from 'firebase/firestore';
 
+import { useAppContext } from 'contexts';
 import { firebaseConverter } from 'helpers';
 import { Message, RawMessage, RawUser, User } from 'types';
 
@@ -136,5 +137,46 @@ export const useChatDataArray = (messageCountToLoad: number) => {
     return chatDataArray.reverse();
   }, [users, messageArray]);
 
-  return { chatDataArray, loaded, loadedMessageCount: messageArray.length };
+  return {
+    chatDataArray,
+    loaded,
+    messageArray,
+  };
+};
+
+type NewMessageSoundData = {
+  soundUrl: string;
+  latestMessage: Message | null;
+  disabled?: boolean;
+};
+export const useNewMessageSound = (data: NewMessageSoundData) => {
+  const { latestMessage, soundUrl, disabled } = data;
+  const { user } = useAppContext();
+  const userUid = user?.uid;
+
+  const latestMessageRef = useRef(latestMessage);
+
+  useEffect(() => {
+    if (
+      // Not disabled by the user
+      !disabled &&
+      // Have a previous message
+      latestMessageRef.current &&
+      // And the latest message is not the same as the previous message
+      latestMessageRef.current.uid !== latestMessage?.uid &&
+      // And the latest message is not from the current user
+      latestMessage?.senderUid !== userUid
+    ) {
+      const audio = new Audio(soundUrl);
+      audio.play();
+    }
+
+    // Update the latest message
+    if (
+      !latestMessageRef.current ||
+      latestMessageRef.current.dateCreated < (latestMessage?.dateCreated ?? 0)
+    ) {
+      latestMessageRef.current = latestMessage;
+    }
+  }, [latestMessage, soundUrl, userUid, disabled]);
 };

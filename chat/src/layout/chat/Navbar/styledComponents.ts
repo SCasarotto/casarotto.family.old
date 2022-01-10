@@ -124,5 +124,14 @@ export const NavLink = styled(NL)`
   }
 `;
 export const SignOutButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 30px;
+
+  svg {
+    display: block;
+    margin-right: 0.5rem;
+    font-size: 1.3rem;
+  }
 `;

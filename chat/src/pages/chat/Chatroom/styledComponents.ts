@@ -4,12 +4,9 @@ import styled from 'styled-components';
 import { colors } from 'theme';
 
 export const ChatContainer = styled.div`
-  max-width: 100ch;
   margin-left: auto;
   margin-right: auto;
   max-height: calc(100vh - 60px);
-  /* display: flex; */
-  /* flex-direction: column; */
 
   @media (max-width: 800px) {
     height: calc(100vh - 50px);
@@ -56,14 +53,20 @@ export const LoadMoreButton = styled.button`
 //
 // Chat Message
 //
-export const MessageWrapper = styled.div`
+export const MessageWrapper = styled.div<{
+  customBackgroundColor?: string;
+  lightText?: boolean;
+}>`
   position: relative;
-  background-color: ${colors.lighterGray};
   padding: 0.5rem;
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
   display: flex;
   flex-direction: row;
+  background-color: ${(props) =>
+    props.customBackgroundColor ?? colors.lighterGray};
+  color: ${(props) =>
+    props.lightText ? colors.lightestGray : colors.darkerGray};
 `;
 export const MessageProfile = styled.img`
   display: block;
@@ -77,14 +80,11 @@ export const MessageSenderName = styled.span`
   font-weight: 600;
   display: block;
   font-size: 1.1rem;
-  line-height: 1;
+  line-height: 1.1;
 `;
 export const MessageTime = styled.span`
-  display: block;
   font-size: 0.85rem;
-  line-height: 1;
-  color: ${colors.darkerGray};
-  margin-bottom: 0.25rem;
+  font-weight: 400;
 `;
 export const MessageText = styled(Linkify)`
   font-size: 1rem;
@@ -92,7 +92,7 @@ export const MessageText = styled(Linkify)`
   white-space: pre-wrap;
   word-break: break-word;
 `;
-export const MessageSpeakButton = styled.button`
+export const MessageSpeakButton = styled.button<{ lightText?: boolean }>`
   position: absolute;
   right: 0;
   top: 0;
@@ -104,16 +104,18 @@ export const MessageSpeakButton = styled.button`
   justify-content: center;
   cursor: pointer;
   background: none;
-  color: ${colors.darkerGray};
-
+  color: ${(props) =>
+    props.lightText ? colors.lightestGray : colors.darkerGray};
   transition: color 0.2s ease-in;
 
   :active {
-    color: ${colors.darkGray};
+    color: ${(props) =>
+      props.lightText ? colors.lightGray : colors.darkerGray};
   }
   @media (hover: hover) and (pointer: fine) {
     :hover {
-      color: ${colors.darkGray};
+      color: ${(props) =>
+        props.lightText ? colors.lightGray : colors.darkerGray};
     }
   }
 
