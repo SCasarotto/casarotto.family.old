@@ -40,7 +40,7 @@ export const Chatroom = () => {
   const popupFunctions = usePopups();
   const { user } = useAppContext();
 
-  const [messageCountToLoad, setMessageCountToLoad] = useState(10);
+  const [messageCountToLoad, setMessageCountToLoad] = useState(20);
   const { chatDataArray, loaded, messageArray } =
     useChatDataArray(messageCountToLoad);
   const loadedMessageCount = messageArray.length;
