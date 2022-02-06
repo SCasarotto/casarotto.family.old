@@ -8,6 +8,9 @@
 // You can also remove this file if you'd prefer not to use a
 // service worker, and the Workbox build step will be skipped.
 
+import { initializeApp } from 'firebase/app';
+import { getMessaging } from 'firebase/messaging';
+import { onBackgroundMessage } from 'firebase/messaging/sw';
 import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
@@ -16,9 +19,6 @@ import { StaleWhileRevalidate } from 'workbox-strategies';
 
 // Firebase
 import pushIcon from 'assets/images/pushIcon.png';
-import { getMessaging } from 'firebase/messaging';
-import { onBackgroundMessage } from 'firebase/messaging/sw';
-import { initializeApp } from 'firebase/app';
 
 declare const self: ServiceWorkerGlobalScope;
 

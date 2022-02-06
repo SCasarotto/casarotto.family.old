@@ -6,19 +6,19 @@ import React, {
   useContext,
 } from 'react';
 
-import { getMessaging, getToken } from 'firebase/messaging';
 import { getAuth, User as FBUser } from 'firebase/auth';
 import {
   getFirestore,
   doc,
   onSnapshot,
   Unsubscribe,
-  updateDoc,
+  // updateDoc,
 } from 'firebase/firestore';
+// import { getMessaging, getToken } from 'firebase/messaging';
 
+// import { settings } from 'config/settings';
 import { firebaseConverter } from 'helpers';
 import { User, RawUser } from 'types';
-import { settings } from 'config/settings';
 
 interface AppContextData {
   fbUser?: FBUser;
