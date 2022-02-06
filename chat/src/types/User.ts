@@ -31,7 +31,6 @@ export type RawUser = {
   permissions: Array<Permission>;
   chatSettings?: UserChatSettings;
   active: boolean;
-  pushToken: string | null;
 };
 export type User = RawUser & {
   uid: string;

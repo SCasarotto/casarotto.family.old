@@ -7,16 +7,8 @@ import React, {
 } from 'react';
 
 import { getAuth, User as FBUser } from 'firebase/auth';
-import {
-  getFirestore,
-  doc,
-  onSnapshot,
-  Unsubscribe,
-  // updateDoc,
-} from 'firebase/firestore';
-// import { getMessaging, getToken } from 'firebase/messaging';
+import { getFirestore, doc, onSnapshot, Unsubscribe } from 'firebase/firestore';
 
-// import { settings } from 'config/settings';
 import { firebaseConverter } from 'helpers';
 import { User, RawUser } from 'types';
 
@@ -35,7 +27,6 @@ export const AppProvider: React.FC = (props) => {
   const [user, setUser] = useState<User>();
   const [userLoaded, setUserLoaded] = useState(false);
 
-  // Load Firebase User
   useEffect(() => {
     getAuth().onAuthStateChanged(
       (u) => {
@@ -56,7 +47,6 @@ export const AppProvider: React.FC = (props) => {
     );
   }, []);
 
-  // Load and Watch User
   useEffect(() => {
     let userUnsubscribe: Unsubscribe;
     const internalUserUid = fbUser?.uid;
@@ -81,19 +71,6 @@ export const AppProvider: React.FC = (props) => {
           setUserLoaded(true);
         },
       );
-
-      // Request Push Notification Permission And Store Token In User
-      // const getAndSavePushToken = async () => {
-      //   try {
-
-      //     await updateDoc(doc(getFirestore(), 'Users', internalUserUid), {
-      //       pushToken: token,
-      //     });
-      //   } catch (e) {
-      //     console.log('getAndSavePushToken error', e);
-      //   }
-      // };
-      // getAndSavePushToken();
     }
 
     return () => {
