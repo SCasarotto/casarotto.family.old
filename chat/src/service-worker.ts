@@ -8,9 +8,10 @@
 // You can also remove this file if you'd prefer not to use a
 // service worker, and the Workbox build step will be skipped.
 
-import { initializeApp } from 'firebase/app';
-import { getMessaging } from 'firebase/messaging';
-import { onBackgroundMessage } from 'firebase/messaging/sw';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/messaging';
+// import { getMessaging } from 'firebase/messaging';
+// import { onBackgroundMessage } from 'firebase/messaging/sw';
 import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
@@ -89,17 +90,35 @@ self.addEventListener('message', (event) => {
 // Firebase Push Notifications
 const urlParams = new URLSearchParams(location.search);
 const firebaseConfig = Object.fromEntries(urlParams);
-console.log('firebaseConfig', firebaseConfig);
-const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
-console.log('see me2');
-onBackgroundMessage(messaging, (payload) => {
+// console.log('firebaseConfig', firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
+// console.log('app', app);
+// const messaging = getMessaging(app);
+// console.log('see me2');
+// onBackgroundMessage(messaging, (payload) => {
+//   console.log('Received background message ', payload);
+
+//   if (payload.notification) {
+//     const notificationTitle = payload.notification.title ?? 'New Message';
+//     const notificationOptions = {
+//       body: payload.notification.body,
+//       icon: pushIcon,
+//     };
+
+//     self.registration.showNotification(notificationTitle, notificationOptions);
+//   }
+// });
+
+// I don't know why the v9 version of firebase doesn't work but when I revert to the v8 (compat) version it does
+firebase.messaging().onBackgroundMessage((payload) => {
   console.log('Received background message ', payload);
+  console.log('pushIcon', pushIcon);
 
   if (payload.notification) {
     const notificationTitle = payload.notification.title ?? 'New Message';
     const notificationOptions = {
       body: payload.notification.body,
+      // TODO: Figure out why the icon isn't working
       icon: pushIcon,
     };
 
