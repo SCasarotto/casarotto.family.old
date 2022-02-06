@@ -1,6 +1,10 @@
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
+import { getMessaging, getToken } from 'firebase/messaging';
+
+import { settings } from 'config/settings';
+
 // This lets the app load faster on subsequent visits in production, and gives
 // it offline capabilities. However, it also means that developers (and users)
 // will only see deployed updates on subsequent visits to a page, after all the
@@ -26,7 +30,9 @@ type Config = {
 };
 
 export function register(config?: Config) {
+  console.log('register');
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+    console.log('inside if');
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
@@ -37,7 +43,19 @@ export function register(config?: Config) {
     }
 
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+      // Register Custom Work to allow us to pass ENV variables
+      // This is hacky but it allows us not to pose our api keys on github
+      const firebaseConfig = new URLSearchParams({
+        apiKey: settings.FIREBASE_API_KEY ?? '',
+        authDomain: settings.FIREBASE_AUTH_DOMAIN ?? '',
+        databaseURL: settings.FIREBASE_DATABASE_URL ?? '',
+        projectId: settings.FIREBASE_PROJECT_ID ?? '',
+        storageBucket: settings.FIREBASE_STORAGE_BUCKET ?? '',
+        messagingSenderId: settings.FIREBASE_MESSAGING_SENDER_ID ?? '',
+        appId: settings.FIREBASE_APP_ID ?? '',
+        measurementId: settings.FIREBASE_MEASUREMENT_ID ?? '',
+      }).toString();
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js?${firebaseConfig}`;
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
@@ -60,9 +78,27 @@ export function register(config?: Config) {
 }
 
 function registerValidSW(swUrl: string, config?: Config) {
+  console.log('registerValidSW');
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
+      console.log('IN Then');
+      const getFirebasePushToken = async () => {
+        console.log('IN GET FIREBASE PUSH TOKEN');
+        try {
+          const vapidKey = settings.FIREBASE_VAPID_KEY;
+          console.log(registration);
+          const token = await getToken(getMessaging(), {
+            vapidKey,
+            serviceWorkerRegistration: registration,
+          });
+          console.log(token);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+      getFirebasePushToken();
+
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
