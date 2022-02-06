@@ -14,6 +14,12 @@ import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
 
+// Firebase
+import pushIcon from 'assets/images/pushIcon.png';
+import { getMessaging } from 'firebase/messaging';
+import { onBackgroundMessage } from 'firebase/messaging/sw';
+import { initializeApp } from 'firebase/app';
+
 declare const self: ServiceWorkerGlobalScope;
 
 clientsClaim();
@@ -79,3 +85,24 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
+
+// Firebase Push Notifications
+const urlParams = new URLSearchParams(location.search);
+const firebaseConfig = Object.fromEntries(urlParams);
+console.log('firebaseConfig', firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
+console.log('see me2');
+onBackgroundMessage(messaging, (payload) => {
+  console.log('Received background message ', payload);
+
+  if (payload.notification) {
+    const notificationTitle = payload.notification.title ?? 'New Message';
+    const notificationOptions = {
+      body: payload.notification.body,
+      icon: pushIcon,
+    };
+
+    self.registration.showNotification(notificationTitle, notificationOptions);
+  }
+});

@@ -14,6 +14,7 @@ type UpdateUser = Omit<
   | 'profileDateUpdated'
   | 'active'
   | 'permissions'
+  | 'pushToken'
 > & {
   profileSrc?: string;
   profileImage?: File | null;
