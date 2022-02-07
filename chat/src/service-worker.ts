@@ -91,7 +91,7 @@ self.addEventListener('message', (event) => {
 const urlParams = new URLSearchParams(location.search);
 const firebaseConfig = Object.fromEntries(urlParams);
 // console.log('firebaseConfig', firebaseConfig);
-const app = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 // console.log('app', app);
 // const messaging = getMessaging(app);
 // console.log('see me2');
@@ -108,6 +108,9 @@ const app = firebase.initializeApp(firebaseConfig);
 //     self.registration.showNotification(notificationTitle, notificationOptions);
 //   }
 // });
+
+// I think the thing I need to investigate is trying to run this code only after registration is complete.
+// I think the whole mess is happening because this code assumes the service worker is ready but its not
 
 // I don't know why the v9 version of firebase doesn't work but when I revert to the v8 (compat) version it does
 firebase.messaging().onBackgroundMessage((payload) => {
