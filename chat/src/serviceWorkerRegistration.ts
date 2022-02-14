@@ -1,8 +1,6 @@
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
-import { getMessaging, getToken } from 'firebase/messaging';
-
 import { settings } from 'config/settings';
 
 // This lets the app load faster on subsequent visits in production, and gives
@@ -30,9 +28,7 @@ type Config = {
 };
 
 export function register(config?: Config) {
-  console.log('register');
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-    console.log('inside if');
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
@@ -82,23 +78,6 @@ function registerValidSW(swUrl: string, config?: Config) {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
-      console.log('IN Then');
-      const getFirebasePushToken = async () => {
-        console.log('IN GET FIREBASE PUSH TOKEN');
-        try {
-          const vapidKey = settings.FIREBASE_VAPID_KEY;
-          console.log(registration);
-          const token = await getToken(getMessaging(), {
-            vapidKey,
-            serviceWorkerRegistration: registration,
-          });
-          console.log(token);
-        } catch (e) {
-          console.log(e);
-        }
-      };
-      getFirebasePushToken();
-
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {

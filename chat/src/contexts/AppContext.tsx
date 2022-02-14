@@ -12,11 +12,11 @@ import {
   doc,
   onSnapshot,
   Unsubscribe,
-  // updateDoc,
+  updateDoc,
 } from 'firebase/firestore';
-// import { getMessaging, getToken } from 'firebase/messaging';
+import { getMessaging, getToken } from 'firebase/messaging';
 
-// import { settings } from 'config/settings';
+import { settings } from 'config/settings';
 import { firebaseConverter } from 'helpers';
 import { User, RawUser } from 'types';
 
@@ -34,6 +34,8 @@ export const AppProvider: React.FC = (props) => {
   const [fbUserLoaded, setFbUserLoaded] = useState(false);
   const [user, setUser] = useState<User>();
   const [userLoaded, setUserLoaded] = useState(false);
+
+  const internalUserUid = fbUser?.uid;
 
   // Load Firebase User
   useEffect(() => {
@@ -59,7 +61,6 @@ export const AppProvider: React.FC = (props) => {
   // Load and Watch User
   useEffect(() => {
     let userUnsubscribe: Unsubscribe;
-    const internalUserUid = fbUser?.uid;
     if (internalUserUid) {
       userUnsubscribe = onSnapshot(
         doc(getFirestore(), 'Users', internalUserUid).withConverter(
@@ -81,19 +82,6 @@ export const AppProvider: React.FC = (props) => {
           setUserLoaded(true);
         },
       );
-
-      // Request Push Notification Permission And Store Token In User
-      // const getAndSavePushToken = async () => {
-      //   try {
-
-      //     await updateDoc(doc(getFirestore(), 'Users', internalUserUid), {
-      //       pushToken: token,
-      //     });
-      //   } catch (e) {
-      //     console.log('getAndSavePushToken error', e);
-      //   }
-      // };
-      // getAndSavePushToken();
     }
 
     return () => {
@@ -103,7 +91,30 @@ export const AppProvider: React.FC = (props) => {
       setUser(undefined);
       setUserLoaded(false);
     };
-  }, [fbUser]);
+  }, [internalUserUid]);
+
+  // Get and store push token
+  useEffect(() => {
+    if ('serviceWorker' in navigator && internalUserUid) {
+      // Request Push Notification Permission And Store Token In User
+      const getAndSavePushToken = async () => {
+        try {
+          const registration = await navigator.serviceWorker.ready;
+          const vapidKey = settings.FIREBASE_VAPID_KEY;
+          const token = await getToken(getMessaging(), {
+            vapidKey,
+            serviceWorkerRegistration: registration,
+          });
+          await updateDoc(doc(getFirestore(), 'Users', internalUserUid), {
+            pushToken: token,
+          });
+        } catch (e) {
+          console.log('getAndSavePushToken error', e);
+        }
+      };
+      getAndSavePushToken();
+    }
+  }, [internalUserUid]);
 
   const memoizedReturn = useMemo(
     () => ({
